@@ -86,7 +86,14 @@ $text = Get-Content -LiteralPath (Join-Path $PSScriptRoot $name) -Raw -Encoding 
 $bytes = [IO.File]::ReadAllBytes((Join-Path $PSScriptRoot $name))
 if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) { Pass "$name has a UTF-8 BOM" }
 else { Fail "$name must be saved as UTF-8 with BOM (Japanese messages)" }
-$used = @([regex]::Matches($text, "CustomMessage\('(\w+)'\)") | ForEach-Object { $_.Groups[1].Value }) +
+# ISCC reads any line starting with "[" as a section tag, also inside [Code].
+foreach ($f in @(@($name, $text), @('inno\common.iss', $common))) {
+    $code = [regex]::Split($f[1], '(?m)^\[Code\]\s*$')
+    $bad = @(if ($code.Count -gt 1) { [regex]::Matches($code[1], '(?m)^[ \t]*\[.*$') | ForEach-Object { $_.Value.Trim() } })
+    if ($bad) { Fail "$($f[0]): [Code] line starts with '[' (ISCC: Invalid section tag): $($bad -join ' | ')" }
+    else { Pass "$($f[0]): no [Code] line starts with '['" }
+}
+$used =@([regex]::Matches($text, "CustomMessage\('(\w+)'\)") | ForEach-Object { $_.Groups[1].Value }) +
         @([regex]::Matches($text, '\{cm:(\w+)') | ForEach-Object { $_.Groups[1].Value })
 $builtin = @('UninstallProgram', 'CreateDesktopIcon', 'LaunchProgram')
 foreach ($lang in 'english', 'japanese') {

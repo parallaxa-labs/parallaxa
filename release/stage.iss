@@ -416,8 +416,9 @@ begin
   begin
     if not ReadObsVersion(ObsPage.Values[0], Version) then
       Version := 'unknown';
-    Log(Format('Parallaxa: OBS folder "%s", version %s, layout %d (0=both 1=legacy 2=flat), flat copy %s, legacy copy %s',
-      [ObsPage.Values[0], Version, ChosenLayout(), BoolStr(WantFlat()), BoolStr(WantLegacy())]));
+    { No line may start with "[" here: Inno Setup reads it as a section tag. }
+    Log(Format('Parallaxa: OBS folder "%s", version %s, layout %d (0=both 1=legacy 2=flat), flat copy %s, legacy copy %s', [ObsPage.Values[0],
+      Version, ChosenLayout(), BoolStr(WantFlat()), BoolStr(WantLegacy())]));
   end;
 end;
 
