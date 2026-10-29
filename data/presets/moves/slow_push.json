@@ -1,0 +1,27 @@
+{
+  "id": "slow_push",
+  "name": {
+    "en": "Slow Push",
+    "ja": "スロープッシュ",
+    "id": "Dorong Pelan"
+  },
+  "duration_ms": 8000,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "singing",
+    "cinematic",
+    "verse"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dzoom": 0.2,
+      "dy": -0.01,
+      "ease": "ease_in_out_quad"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "spotlight",
+  "name": {
+    "en": "Spotlight",
+    "ja": "スポットライト",
+    "id": "Sorotan"
+  },
+  "description": {
+    "en": "A strong vignette and a close frame for announcements.",
+    "ja": "強めのビネットと寄りの画角で、お知らせを印象的に。",
+    "id": "Vignette kuat dan bingkai dekat untuk pengumuman."
+  },
+  "pro": false,
+  "tags": [
+    "announcement",
+    "vignette"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.1
+  },
+  "fx": "spotlight",
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.4
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1.15,
+    "rot": 0
+  },
+  "overscan": 0.08
+}

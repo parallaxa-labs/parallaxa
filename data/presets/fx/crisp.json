@@ -1,0 +1,20 @@
+{
+  "id": "crisp",
+  "name": {
+    "en": "Crisp",
+    "ja": "クリスプ",
+    "id": "Tajam"
+  },
+  "tags": [
+    "clean",
+    "product"
+  ],
+  "params": {
+    "contrast": 0.1,
+    "saturation": 0.1,
+    "vignette": 0.12,
+    "vignette_soft": 0.7,
+    "bloom": 0.15,
+    "bloom_threshold": 0.85
+  }
+}

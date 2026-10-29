@@ -1,0 +1,136 @@
+/* Copyright (C) 2026 Parallaxa Labs
+ * SPDX-License-Identifier: GPL-2.0-or-later */
+/* Design tokens. Components reference only these semantic tokens, never raw hex.
+ * The web build's contrast check parses this file and fails when a text or
+ * component pair drops below its WCAG 2.1 threshold, or when the light block
+ * and the "system light" media block drift apart. */
+@layer tokens {
+  :root {
+    color-scheme: dark;
+    /* surfaces */
+    --c-bg: #0F0D17;
+    --c-surface-1: #17141F;
+    --c-surface-2: #201C2B;
+    --c-surface-3: #2A2538;
+    --c-border: #332D45;
+    --c-border-strong: #6E6488;
+    --c-overlay: rgb(8 6 14 / .72);
+
+    /* text */
+    --c-text: #F4F1FA;
+    --c-text-muted: #B9B1CC;
+    --c-text-subtle: #958CAB;
+
+    /* brand */
+    --c-primary: #FF85BC;
+    --c-on-primary: #1A0B14;
+    --c-primary-tint: rgb(255 133 188 / .14);
+    --c-accent: #5EE6D0;
+    --c-on-accent: #06201C;
+    --c-accent-tint: rgb(94 230 208 / .14);
+
+    /* status */
+    --c-live: #FF5A6A;
+    --c-on-live: #1A0B14;
+    --c-success: #4ADE80;
+    --c-warning: #FBBF24;
+    --c-danger: #FF6B7A;
+    --c-on-danger: #1A0B14; /* text on a danger fill (hover state of danger buttons) */
+    --c-info: #7AB4FF;
+
+    /* platforms (badge text/icon colour, on surface-2) */
+    --c-yt: #FF5A5A;
+    --c-twitch: #B58CFF;
+    --c-local: var(--c-accent);
+
+    /* superchat tier fills (text = --c-text) */
+    --c-sc-1: #1E3A5F;
+    --c-sc-2: #14432F;
+    --c-sc-3: #4A3A0A;
+    --c-sc-4: #4F2A0C;
+    --c-sc-5: #4D1638;
+    --c-sc-6: #511419;
+
+    --c-focus: var(--c-primary);
+
+    /* typography */
+    --font-ui: system-ui, "Segoe UI Variable Text", "Segoe UI", "Yu Gothic UI", "Meiryo UI",
+      "Hiragino Sans", "Noto Sans JP", "Noto Sans", sans-serif;
+    /* No display font ships, so headings use the system
+       stack on every machine. When a subset woff2 is bundled (<= 40 KB, font-display:
+       swap, loaded after first paint), put its family name first here. */
+    --font-display: var(--font-ui);
+    --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, "BIZ UDGothic", monospace;
+    --fs-11: .6875rem; --fs-12: .75rem; --fs-13: .8125rem; --fs-14: .875rem;
+    --fs-16: 1rem; --fs-18: 1.125rem; --fs-22: 1.375rem; --fs-28: 1.75rem;
+    --lh-tight: 1.25; --lh-ui: 1.45; --lh-jp: 1.7;
+    --fw-regular: 400; --fw-medium: 500; --fw-bold: 700;
+
+    /* spacing, radius, elevation, motion, layers */
+    --sp-0: 0; --sp-1: 2px; --sp-2: 4px; --sp-3: 6px; --sp-4: 8px; --sp-5: 12px;
+    --sp-6: 16px; --sp-7: 20px; --sp-8: 24px; --sp-9: 32px; --sp-10: 48px;
+    --r-xs: 4px; --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-pill: 999px;
+    --sh-1: 0 1px 0 rgb(255 255 255 / .04) inset, 0 1px 2px rgb(0 0 0 / .4);
+    --sh-2: 0 1px 0 rgb(255 255 255 / .05) inset, 0 6px 16px rgb(0 0 0 / .45);
+    --sh-3: 0 12px 32px rgb(0 0 0 / .55);
+    --glow-primary: 0 0 0 1px var(--c-primary), 0 0 16px rgb(255 133 188 / .35);
+    --glow-live: 0 0 0 1px var(--c-live), 0 0 14px rgb(255 90 106 / .35);
+    --dur-1: 90ms; --dur-2: 160ms; --dur-3: 240ms; --dur-4: 400ms;
+    --ease-out: cubic-bezier(.2, .8, .2, 1);
+    --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+    --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+    --z-base: 0; --z-sticky: 10; --z-panic: 20; --z-toast: 30; --z-dialog: 40;
+    --hit-min: 32px;
+    --hit-touch: 44px;
+    --focus-ring: 0 0 0 2px var(--c-bg), 0 0 0 4px var(--c-focus);
+
+    /* shell metrics */
+    --rail-w: 64px;
+    --topbar-h: 48px;
+    --dock-header-h: 32px;
+    --panic-h: 52px;
+    --status-h: 40px;
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --c-bg: #FBF8FD; --c-surface-1: #FFFFFF; --c-surface-2: #F3EEF8; --c-surface-3: #E9E2F2;
+    --c-border: #E2DAEC; --c-border-strong: #8C82A3; --c-overlay: rgb(27 23 38 / .45);
+    --c-text: #1B1726; --c-text-muted: #564D6B; --c-text-subtle: #6E6585;
+    --c-primary: #B8155A; --c-on-primary: #FFFFFF; --c-primary-tint: rgb(184 21 90 / .10);
+    --c-accent: #0D6F66; --c-on-accent: #FFFFFF; --c-accent-tint: rgb(13 111 102 / .10);
+    --c-live: #C8102E; --c-on-live: #FFFFFF;
+    --c-success: #157A3A; --c-warning: #9A4A06; --c-danger: #B91C2C; --c-on-danger: #FFFFFF; --c-info: #1D4ED8;
+    --c-yt: #C4161C; --c-twitch: #6B3FD4;
+    --c-sc-1: #DCEBFF; --c-sc-2: #DBF5E6; --c-sc-3: #FFF2C2; --c-sc-4: #FFE3CC; --c-sc-5: #FBDDEE; --c-sc-6: #FFDADD;
+    --sh-1: 0 1px 2px rgb(27 23 38 / .08); --sh-2: 0 6px 16px rgb(27 23 38 / .10); --sh-3: 0 12px 32px rgb(27 23 38 / .16);
+  }
+
+  /* "system" theme = no data-theme attribute + the OS preference. Same values
+   * as the light block (contrast-check.mjs verifies they match). */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      --c-bg: #FBF8FD; --c-surface-1: #FFFFFF; --c-surface-2: #F3EEF8; --c-surface-3: #E9E2F2;
+      --c-border: #E2DAEC; --c-border-strong: #8C82A3; --c-overlay: rgb(27 23 38 / .45);
+      --c-text: #1B1726; --c-text-muted: #564D6B; --c-text-subtle: #6E6585;
+      --c-primary: #B8155A; --c-on-primary: #FFFFFF; --c-primary-tint: rgb(184 21 90 / .10);
+      --c-accent: #0D6F66; --c-on-accent: #FFFFFF; --c-accent-tint: rgb(13 111 102 / .10);
+      --c-live: #C8102E; --c-on-live: #FFFFFF;
+      --c-success: #157A3A; --c-warning: #9A4A06; --c-danger: #B91C2C; --c-on-danger: #FFFFFF; --c-info: #1D4ED8;
+      --c-yt: #C4161C; --c-twitch: #6B3FD4;
+      --c-sc-1: #DCEBFF; --c-sc-2: #DBF5E6; --c-sc-3: #FFF2C2; --c-sc-4: #FFE3CC; --c-sc-5: #FBDDEE; --c-sc-6: #FFDADD;
+      --sh-1: 0 1px 2px rgb(27 23 38 / .08); --sh-2: 0 6px 16px rgb(27 23 38 / .10); --sh-3: 0 12px 32px rgb(27 23 38 / .16);
+    }
+  }
+
+  /* Reduced motion: the OS setting, unless the in-app setting (ui.reduce_motion)
+   * forces it on (data-motion="reduce") or off (data-motion="full"). */
+  @media (prefers-reduced-motion: reduce) {
+    :root:not([data-motion="full"]) { --dur-1: 0ms; --dur-2: 0ms; --dur-3: 0ms; --dur-4: 0ms; --motion: 0; }
+  }
+  :root[data-motion="reduce"] { --dur-1: 0ms; --dur-2: 0ms; --dur-3: 0ms; --dur-4: 0ms; --motion: 0; }
+
+  /* Dock layout: smaller body text and bars. */
+  .layout-dock { --panic-h: 48px; --status-h: 36px; }
+}

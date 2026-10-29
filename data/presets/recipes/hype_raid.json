@@ -1,0 +1,45 @@
+{
+  "id": "hype_raid",
+  "name": {
+    "en": "Hype Raid",
+    "ja": "レイド歓迎",
+    "id": "Sambut Raid"
+  },
+  "description": {
+    "en": "Maximum energy for welcoming a raid.",
+    "ja": "レイドを全力で歓迎するハイテンションルック。",
+    "id": "Energi maksimal untuk menyambut raid."
+  },
+  "pro": false,
+  "tags": [
+    "raid",
+    "music-reactive",
+    "vivid"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "singing",
+    "intensity": 0.9
+  },
+  "fx": "hype",
+  "audio_react": {
+    "amount": 0.85,
+    "attack_ms": 10,
+    "release_ms": 150
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.15
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1.08,
+    "rot": 0
+  },
+  "overscan": 0.12
+}

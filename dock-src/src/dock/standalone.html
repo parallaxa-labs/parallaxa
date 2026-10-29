@@ -1,0 +1,29 @@
+<!doctype html>
+<!--
+  Copyright (C) 2026 Parallaxa Labs
+  SPDX-License-Identifier: GPL-2.0-or-later
+-->
+<html lang="en" class="layout-dock">
+<!--
+  Parallaxa dock (works without AI Live Studio). Add it in OBS:
+  Docks > Custom Browser Docks > Dock Name "Parallaxa", URL (the plugin's data folder):
+    file:///C:/ProgramData/obs-studio/plugins/parallaxa/data/dock/dock-standalone.html
+  Then enable Tools > WebSocket Server Settings in OBS and enter its password in the dock once.
+  The password is kept in plain text in this OBS browser profile's storage for file:// pages
+  (shared by every local file page in OBS docks and browser sources); "Forget password" in the
+  dock's Connection card removes it.
+-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Parallaxa</title>
+    <!-- Cascade layer order before any stylesheet. -->
+    <style>@layer reset, tokens, base, components, screens, utilities;</style>
+    <script type="module" src="./standalone.ts"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

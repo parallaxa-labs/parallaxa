@@ -1,0 +1,24 @@
+{
+  "id": "pan_left",
+  "name": {
+    "en": "Pan Left",
+    "ja": "左へパン",
+    "id": "Geser Kiri"
+  },
+  "duration_ms": 1200,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "basic"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dx": -0.08,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

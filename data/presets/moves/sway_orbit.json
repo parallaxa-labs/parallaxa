@@ -1,0 +1,47 @@
+{
+  "id": "sway_orbit",
+  "name": {
+    "en": "Sway Orbit",
+    "ja": "ゆらぎオービット",
+    "id": "Ayunan Orbit"
+  },
+  "duration_ms": 6000,
+  "relative": true,
+  "hold": false,
+  "tags": [
+    "singing",
+    "cinematic",
+    "ballad"
+  ],
+  "keys": [
+    {
+      "t": 0,
+      "dx": 0,
+      "drot": 0
+    },
+    {
+      "t": 0.25,
+      "dx": 0.03,
+      "drot": 1.5,
+      "ease": "ease_in_out_quad"
+    },
+    {
+      "t": 0.5,
+      "dx": 0,
+      "drot": 0,
+      "ease": "ease_in_out_quad"
+    },
+    {
+      "t": 0.75,
+      "dx": -0.03,
+      "drot": -1.5,
+      "ease": "ease_in_out_quad"
+    },
+    {
+      "t": 1,
+      "dx": 0,
+      "drot": 0,
+      "ease": "ease_in_out_quad"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "singing_hype",
+  "name": {
+    "en": "Singing Hype",
+    "ja": "アゲアゲ歌枠",
+    "id": "Nyanyi Heboh"
+  },
+  "description": {
+    "en": "Punchy music-reactive camera and vivid color for up-tempo songs.",
+    "ja": "アップテンポ曲向けの、音にキレよく反応するカメラと鮮やかな色。",
+    "id": "Kamera yang menghentak mengikuti musik dan warna cerah untuk lagu cepat."
+  },
+  "pro": false,
+  "tags": [
+    "singing",
+    "music-reactive",
+    "vivid"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "singing",
+    "intensity": 0.75
+  },
+  "fx": "hype",
+  "audio_react": {
+    "amount": 0.7,
+    "attack_ms": 15,
+    "release_ms": 180
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.2
+  },
+  "overscan": 0.12
+}

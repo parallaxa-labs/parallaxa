@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "recipe.json",
+  "title": "Stage recipe file (data/presets/recipes/<id>.json); UX 'Look preset'",
+  "$comment": "SPDX-License-Identifier: MIT. File name must be <id>.json.",
+  "type": "object",
+  "required": ["id", "name", "pro", "roles"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "vendor.common.json#/$defs/id" },
+    "name": { "$ref": "vendor.common.json#/$defs/localized_name" },
+    "description": { "$ref": "vendor.common.json#/$defs/localized_text" },
+    "pro": { "type": "boolean" },
+    "tags": { "$ref": "vendor.common.json#/$defs/tags" },
+    "roles": {
+      "description": "Role -> depth for items whose role is set or auto-guessed.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "bg": { "$ref": "vendor.common.json#/$defs/depth" },
+        "char": { "$ref": "vendor.common.json#/$defs/depth" },
+        "fg": { "$ref": "vendor.common.json#/$defs/depth" }
+      }
+    },
+    "auto": { "$ref": "vendor.common.json#/$defs/auto_state" },
+    "fx": { "$ref": "vendor.common.json#/$defs/id" },
+    "audio_react": {
+      "type": "object",
+      "required": ["amount"],
+      "additionalProperties": false,
+      "properties": {
+        "amount": { "$ref": "vendor.common.json#/$defs/unit" },
+        "attack_ms": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "release_ms": { "type": "integer", "minimum": 1, "maximum": 5000 }
+      }
+    },
+    "dof": { "$ref": "vendor.common.json#/$defs/dof_state" },
+    "camera": { "$ref": "vendor.common.json#/$defs/camera_pose" },
+    "overscan": { "type": "number", "minimum": 0, "maximum": 0.25 }
+  }
+}

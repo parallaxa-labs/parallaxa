@@ -1,0 +1,29 @@
+{
+  "name": "@parallaxa-labs/parallaxa-dock",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Parallaxa standalone Stage dock (Svelte 5): source of data/dock/dock-standalone.html",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build": "vite build --mode standalone",
+    "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+    "test": "vitest run",
+    "gen-dict": "node src/dock/gen-dict.ts",
+    "verify": "pnpm check && pnpm test && node scripts/verify-dock.mjs"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "~6.2.4",
+    "@types/node": "^24.0.0",
+    "jsdom": "^30.1.3",
+    "svelte": "5.35.7",
+    "svelte-check": "^4.7.7",
+    "terser": "^5.51.2",
+    "typescript": "~6.0.3",
+    "vite": "~7.3.7",
+    "vitest": "^5.0.5"
+  }
+}

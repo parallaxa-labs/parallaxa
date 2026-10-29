@@ -1,0 +1,39 @@
+{
+  "id": "rainy_lofi",
+  "name": {
+    "en": "Rainy Lo-fi",
+    "ja": "雨のローファイ",
+    "id": "Lo-fi Hujan"
+  },
+  "description": {
+    "en": "Cool, rainy grade with grain and a slow drift.",
+    "ja": "グレイン入りの涼しい雨色とゆっくりドリフト。",
+    "id": "Warna sejuk ala hujan dengan grain dan gerakan pelan."
+  },
+  "pro": false,
+  "tags": [
+    "lofi",
+    "rain",
+    "drift"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.2
+  },
+  "fx": "rainy",
+  "audio_react": {
+    "amount": 0.1,
+    "attack_ms": 40,
+    "release_ms": 450
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.4
+  },
+  "overscan": 0.08
+}

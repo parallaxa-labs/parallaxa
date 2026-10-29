@@ -1,0 +1,21 @@
+{
+  "id": "hype",
+  "name": {
+    "en": "Hype",
+    "ja": "ハイプ",
+    "id": "Heboh"
+  },
+  "tags": [
+    "vivid",
+    "bloom"
+  ],
+  "params": {
+    "exposure": 0.05,
+    "contrast": 0.2,
+    "saturation": 0.35,
+    "vignette": 0.15,
+    "chroma": 0.12,
+    "bloom": 0.4,
+    "bloom_threshold": 0.7
+  }
+}

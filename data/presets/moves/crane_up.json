@@ -1,0 +1,27 @@
+{
+  "id": "crane_up",
+  "name": {
+    "en": "Crane Up",
+    "ja": "クレーンアップ",
+    "id": "Crane Naik"
+  },
+  "duration_ms": 4000,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "singing",
+    "cinematic",
+    "bridge"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dy": -0.06,
+      "dzoom": 0.08,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

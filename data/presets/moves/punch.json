@@ -1,0 +1,31 @@
+{
+  "id": "punch",
+  "name": {
+    "en": "Punch In",
+    "ja": "パンチイン",
+    "id": "Hentakan"
+  },
+  "duration_ms": 380,
+  "relative": true,
+  "hold": false,
+  "tags": [
+    "basic",
+    "impact"
+  ],
+  "keys": [
+    {
+      "t": 0,
+      "dzoom": 0
+    },
+    {
+      "t": 0.3,
+      "dzoom": 0.18,
+      "ease": "ease_out_back"
+    },
+    {
+      "t": 1,
+      "dzoom": 0,
+      "ease": "ease_in_out_quad"
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "vendor.common.json",
+  "title": "Parallaxa vendor protocol v1: shared definitions",
+  "$comment": "SPDX-License-Identifier: MIT. Normative text: docs/protocol/vendor-api.md.",
+  "$defs": {
+    "scene": {
+      "description": "Scene (or FX carrier source) name or uuid. Empty or absent = current program scene.",
+      "type": "string",
+      "maxLength": 256
+    },
+    "id": {
+      "description": "Move / recipe / fx preset / lut / leak id.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,30}$"
+    },
+    "id_or_empty": {
+      "type": "string",
+      "pattern": "^([a-z0-9][a-z0-9_-]{0,30})?$"
+    },
+    "cmd_id": { "type": "integer", "minimum": 1 },
+    "item_id": { "type": "integer", "minimum": 0 },
+    "uuid": { "type": "string", "maxLength": 39 },
+    "duration_set": { "type": "integer", "minimum": 0, "maximum": 10000 },
+    "duration_move": { "type": "integer", "minimum": 50, "maximum": 10000 },
+    "duration_pulse": { "type": "integer", "minimum": 50, "maximum": 2000 },
+    "unit": { "type": "number", "minimum": 0, "maximum": 1 },
+    "signed_unit": { "type": "number", "minimum": -1, "maximum": 1 },
+    "depth": { "type": "number", "minimum": 0.1, "maximum": 10 },
+    "zoom": { "type": "number", "minimum": 0.5, "maximum": 4 },
+    "rot": { "type": "number", "minimum": -45, "maximum": 45 },
+    "slot": { "type": "integer", "minimum": 1, "maximum": 9 },
+    "move_builtin": {
+      "enum": ["zoom_in", "zoom_out", "pan_left", "pan_right", "shake", "punch", "dolly", "nod", "reset"]
+    },
+    "ease": {
+      "enum": [
+        "linear",
+        "ease_in_quad", "ease_out_quad", "ease_in_out_quad",
+        "ease_in_cubic", "ease_out_cubic", "ease_in_out_cubic",
+        "ease_in_quint", "ease_out_quint", "ease_in_out_quint",
+        "ease_in_back", "ease_out_back", "ease_in_out_back",
+        "ease_in_elastic", "ease_out_elastic", "ease_in_out_elastic",
+        "smoothstep"
+      ]
+    },
+    "auto_mode": { "enum": ["off", "drift", "chatting", "singing"] },
+    "role": { "enum": ["none", "bg", "char", "fg", "sky", "static"] },
+    "transition": { "enum": ["cut", "smooth", "whip", "punch"] },
+    "pulse_effect": { "enum": ["flash", "chroma_kick", "vignette_pulse"] },
+    "hotkey_action": { "enum": ["ai_stop", "ai_skip", "ai_mute", "ai_panic", "ai_approve"] },
+    "error_code": { "enum": ["bad_param", "no_rig", "no_fx", "not_found", "busy", "internal"] },
+    "feature": { "enum": ["camera", "fx", "audio", "dof", "views"] },
+    "perf_paused": { "enum": ["", "bloom", "lut", "leak", "grain", "chroma"] },
+    "localized_name": {
+      "type": "object",
+      "required": ["en", "ja", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "ja": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "id": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    },
+    "localized_text": {
+      "type": "object",
+      "required": ["en", "ja", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "maxLength": 280 },
+        "ja": { "type": "string", "maxLength": 280 },
+        "id": { "type": "string", "maxLength": 280 }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,23}$" }
+    },
+    "camera_pose": {
+      "type": "object",
+      "required": ["x", "y", "zoom", "rot"],
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "zoom": { "$ref": "#/$defs/zoom" },
+        "rot": { "$ref": "#/$defs/rot" }
+      }
+    },
+    "camera_state": {
+      "type": "object",
+      "required": ["x", "y", "zoom", "rot", "shake"],
+      "additionalProperties": false,
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "zoom": { "type": "number" },
+        "rot": { "type": "number" },
+        "shake": { "$ref": "#/$defs/unit" }
+      }
+    },
+    "auto_state": {
+      "type": "object",
+      "required": ["mode", "intensity"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "$ref": "#/$defs/auto_mode" },
+        "intensity": { "$ref": "#/$defs/unit" }
+      }
+    },
+    "fx_state": {
+      "type": "object",
+      "required": ["preset"],
+      "additionalProperties": false,
+      "properties": { "preset": { "$ref": "#/$defs/id_or_empty" } }
+    },
+    "dof_state": {
+      "type": "object",
+      "required": ["focus_depth", "amount"],
+      "additionalProperties": false,
+      "properties": {
+        "focus_depth": { "$ref": "#/$defs/depth" },
+        "amount": { "$ref": "#/$defs/unit" }
+      }
+    },
+    "fx_params": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exposure": { "type": "number", "minimum": -2, "maximum": 2 },
+        "contrast": { "$ref": "#/$defs/signed_unit" },
+        "saturation": { "$ref": "#/$defs/signed_unit" },
+        "temperature": { "$ref": "#/$defs/signed_unit" },
+        "tint": { "$ref": "#/$defs/signed_unit" },
+        "vignette": { "$ref": "#/$defs/unit" },
+        "vignette_soft": { "$ref": "#/$defs/unit" },
+        "vignette_round": { "$ref": "#/$defs/unit" },
+        "chroma": { "$ref": "#/$defs/unit" },
+        "grain": { "$ref": "#/$defs/unit" },
+        "grain_size": { "type": "number", "minimum": 0.5, "maximum": 4 },
+        "lut": { "$ref": "#/$defs/id_or_empty" },
+        "lut_amount": { "$ref": "#/$defs/unit" },
+        "leak": { "$ref": "#/$defs/id_or_empty" },
+        "leak_amount": { "$ref": "#/$defs/unit" },
+        "leak_speed": { "type": "number", "minimum": 0, "maximum": 2 },
+        "bloom": { "$ref": "#/$defs/unit" },
+        "bloom_threshold": { "$ref": "#/$defs/unit" }
+      }
+    },
+    "stage_state": {
+      "type": "object",
+      "required": ["scene", "scene_uuid", "camera", "auto", "fx", "dof", "moving", "frozen", "view"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "#/$defs/uuid" },
+        "camera": { "$ref": "#/$defs/camera_state" },
+        "auto": { "$ref": "#/$defs/auto_state" },
+        "fx": { "$ref": "#/$defs/fx_state" },
+        "dof": { "$ref": "#/$defs/dof_state" },
+        "moving": { "type": "boolean" },
+        "move": { "type": "string", "maxLength": 31 },
+        "frozen": { "type": "boolean" },
+        "view": { "type": "integer", "minimum": 0, "maximum": 9 }
+      }
+    },
+    "rig_info": {
+      "type": "object",
+      "required": ["scene", "scene_uuid", "enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "#/$defs/uuid" },
+        "enabled": { "type": "boolean" }
+      }
+    },
+    "fx_info": {
+      "type": "object",
+      "required": ["source", "source_uuid", "enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string" },
+        "source_uuid": { "$ref": "#/$defs/uuid" },
+        "enabled": { "type": "boolean" }
+      }
+    },
+    "view_name": {
+      "$comment": "maxLength counts Unicode code points (STAGE_VIEW_NAME_MAX_CHARS); the C buffer STAGE_VIEW_NAME_MAX holds 4 bytes per code point + NUL. No NUL, valid UTF-8; never truncated.",
+      "type": "string",
+      "maxLength": 47,
+      "pattern": "^[^\\x00]*$"
+    },
+    "view_info": {
+      "type": "object",
+      "required": ["slot", "name", "camera", "transition", "duration_ms"],
+      "additionalProperties": false,
+      "properties": {
+        "slot": { "$ref": "#/$defs/slot" },
+        "name": { "$ref": "#/$defs/view_name" },
+        "camera": { "$ref": "#/$defs/camera_pose" },
+        "transition": { "$ref": "#/$defs/transition" },
+        "duration_ms": { "$ref": "#/$defs/duration_set" }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "$comment": "depth is present exactly when the item is enrolled (role is not none); obs_data has no null (vendor-api.md 1.1).",
+      "required": ["item_id", "name", "source_uuid", "role", "visible", "locked", "depth_blur"],
+      "additionalProperties": false,
+      "properties": {
+        "item_id": { "$ref": "#/$defs/item_id" },
+        "name": { "type": "string" },
+        "source_uuid": { "$ref": "#/$defs/uuid" },
+        "depth": { "$ref": "#/$defs/depth" },
+        "role": { "$ref": "#/$defs/role" },
+        "visible": { "type": "boolean" },
+        "locked": { "type": "boolean" },
+        "depth_blur": { "type": "boolean" }
+      }
+    }
+  }
+}

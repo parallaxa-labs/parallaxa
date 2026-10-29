@@ -1,0 +1,21 @@
+{
+  "id": "spotlight",
+  "name": {
+    "en": "Spotlight",
+    "ja": "スポットライト",
+    "id": "Sorotan"
+  },
+  "tags": [
+    "vignette",
+    "focus"
+  ],
+  "params": {
+    "exposure": 0.1,
+    "contrast": 0.15,
+    "vignette": 0.55,
+    "vignette_soft": 0.5,
+    "vignette_round": 1,
+    "bloom": 0.2,
+    "bloom_threshold": 0.8
+  }
+}

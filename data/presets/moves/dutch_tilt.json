@@ -1,0 +1,27 @@
+{
+  "id": "dutch_tilt",
+  "name": {
+    "en": "Dutch Tilt",
+    "ja": "ダッチアングル",
+    "id": "Miring Dramatis"
+  },
+  "duration_ms": 1500,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "singing",
+    "cinematic",
+    "drama"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "drot": 6,
+      "dzoom": 0.06,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

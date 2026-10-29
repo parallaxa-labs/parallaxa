@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "vendor.responses.json",
+  "title": "Parallaxa vendor protocol v1: responseData per requestType",
+  "$comment": "SPDX-License-Identifier: MIT. Every response has ok; failures use #/$defs/error.",
+  "$defs": {
+    "error": {
+      "type": "object",
+      "required": ["ok", "code", "error"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": false },
+        "code": { "$ref": "vendor.common.json#/$defs/error_code" },
+        "error": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "ok": {
+      "type": "object",
+      "required": ["ok"],
+      "additionalProperties": false,
+      "properties": { "ok": { "const": true } }
+    },
+    "cmd": {
+      "type": "object",
+      "required": ["ok", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "id": { "$ref": "vendor.common.json#/$defs/cmd_id" }
+      }
+    },
+    "get_info": {
+      "type": "object",
+      "required": ["ok", "version", "protocol", "obs", "canvas", "rigs", "fx"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+([-+][0-9A-Za-z.-]+)?$" },
+        "protocol": { "const": 1 },
+        "obs": { "type": "string" },
+        "canvas": {
+          "type": "object",
+          "required": ["width", "height"],
+          "additionalProperties": false,
+          "properties": {
+            "width": { "type": "integer", "minimum": 1 },
+            "height": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "features": {
+          "$comment": "Optional and never sent by Parallaxa over obs-websocket (obs_data has no arrays of strings; vendor-api.md 1.1). Absent = not reported.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "vendor.common.json#/$defs/feature" }
+        },
+        "rigs": { "type": "array", "items": { "$ref": "vendor.common.json#/$defs/rig_info" } },
+        "fx": { "type": "array", "items": { "$ref": "vendor.common.json#/$defs/fx_info" } }
+      }
+    },
+    "get_state": {
+      "$comment": "vendor.common.json#/$defs/stage_state plus ok.",
+      "type": "object",
+      "required": ["ok", "scene", "scene_uuid", "camera", "auto", "fx", "dof", "moving", "frozen", "view"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "vendor.common.json#/$defs/uuid" },
+        "camera": { "$ref": "vendor.common.json#/$defs/camera_state" },
+        "auto": { "$ref": "vendor.common.json#/$defs/auto_state" },
+        "fx": { "$ref": "vendor.common.json#/$defs/fx_state" },
+        "dof": { "$ref": "vendor.common.json#/$defs/dof_state" },
+        "moving": { "type": "boolean" },
+        "move": { "type": "string", "maxLength": 31 },
+        "frozen": { "type": "boolean" },
+        "view": { "type": "integer", "minimum": 0, "maximum": 9 }
+      }
+    },
+    "camera_move": { "$ref": "#/$defs/cmd" },
+    "camera_set": { "$ref": "#/$defs/cmd" },
+    "camera_reset": { "$ref": "#/$defs/cmd" },
+    "camera_auto": { "$ref": "#/$defs/cmd" },
+    "fx_set": { "$ref": "#/$defs/cmd" },
+    "fx_pulse": { "$ref": "#/$defs/cmd" },
+    "dof_set": { "$ref": "#/$defs/cmd" },
+    "layer_list": {
+      "type": "object",
+      "required": ["ok", "scene", "scene_uuid", "layers"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "vendor.common.json#/$defs/uuid" },
+        "layers": { "type": "array", "items": { "$ref": "vendor.common.json#/$defs/layer" } }
+      }
+    },
+    "layer_set": { "$ref": "#/$defs/cmd" },
+    "move_list": {
+      "type": "object",
+      "required": ["ok", "moves"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "moves": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "duration_ms", "builtin"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "$ref": "vendor.common.json#/$defs/id" },
+              "name": { "$ref": "vendor.common.json#/$defs/localized_name" },
+              "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_move" },
+              "builtin": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "recipe_list": {
+      "type": "object",
+      "required": ["ok", "recipes"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "recipes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "pro", "user"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "$ref": "vendor.common.json#/$defs/id" },
+              "name": { "$ref": "vendor.common.json#/$defs/localized_name" },
+              "pro": { "type": "boolean" },
+              "tags": {
+                "$comment": "Optional and never sent by Parallaxa over obs-websocket (obs_data has no arrays of strings; vendor-api.md 1.1).",
+                "$ref": "vendor.common.json#/$defs/tags"
+              },
+              "user": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "recipe_apply": {
+      "type": "object",
+      "required": ["ok", "id", "applied"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "id": { "$ref": "vendor.common.json#/$defs/cmd_id" },
+        "applied": {
+          "type": "object",
+          "required": ["layers", "auto", "fx"],
+          "additionalProperties": false,
+          "properties": {
+            "layers": { "type": "integer", "minimum": 0 },
+            "auto": { "$ref": "vendor.common.json#/$defs/auto_mode" },
+            "fx": { "$ref": "vendor.common.json#/$defs/id_or_empty" }
+          }
+        }
+      }
+    },
+    "view_save": {
+      "type": "object",
+      "required": ["ok", "view"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "view": { "$ref": "vendor.common.json#/$defs/view_info" }
+      }
+    },
+    "view_apply": { "$ref": "#/$defs/cmd" },
+    "view_list": {
+      "type": "object",
+      "required": ["ok", "scene", "scene_uuid", "views"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "vendor.common.json#/$defs/uuid" },
+        "views": {
+          "type": "array",
+          "maxItems": 9,
+          "items": { "$ref": "vendor.common.json#/$defs/view_info" }
+        }
+      }
+    },
+    "view_delete": { "$ref": "#/$defs/ok" },
+    "freeze": {
+      "type": "object",
+      "required": ["ok", "frozen"],
+      "additionalProperties": false,
+      "properties": {
+        "ok": { "const": true },
+        "frozen": { "type": "boolean" }
+      }
+    },
+    "panic": { "$ref": "#/$defs/ok" }
+  }
+}

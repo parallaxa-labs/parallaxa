@@ -1,0 +1,97 @@
+// stage-depth-blur.effect — Parallaxa Depth Blur (per-layer DoF).
+//
+// Copyright (C) 2026 Parallaxa Labs
+// SPDX-License-Identifier: GPL-2.0-or-later
+//
+//   Down : dual-Kawase downsample (5 taps), one level per pass.
+//   Up   : dual-Kawase upsample (8 taps), one level per pass.
+//   Mix  : full-resolution output = lerp(image, blur, mix_amount).
+// All values are premultiplied linear light (the chain is RGBA16F and the
+// source is sampled through its sRGB view). `texel` = 1 / sampled size.
+
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform texture2d blur_tex;
+uniform float2 texel;
+uniform float offset;
+uniform float mix_amount;
+
+sampler_state clamp_sampler {
+	Filter = Linear;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData v_out;
+	v_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	v_out.uv = v_in.uv;
+	return v_out;
+}
+
+float4 PSDown(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float2 hp = texel * (0.5 * offset);
+	float4 sum = image.Sample(clamp_sampler, uv) * 4.0;
+	sum = sum + image.Sample(clamp_sampler, uv - hp);
+	sum = sum + image.Sample(clamp_sampler, uv + hp);
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, -hp.y));
+	sum = sum + image.Sample(clamp_sampler, uv - float2(hp.x, -hp.y));
+	return sum * 0.125;
+}
+
+float4 PSUp(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float2 hp = texel * (0.5 * offset);
+	float4 sum = image.Sample(clamp_sampler, uv + float2(-hp.x * 2.0, 0.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(-hp.x, hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(0.0, hp.y * 2.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x * 2.0, 0.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, -hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(0.0, -hp.y * 2.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(-hp.x, -hp.y)) * 2.0;
+	return sum / 12.0;
+}
+
+float4 PSMix(VertData v_in) : TARGET
+{
+	float4 sharp = image.Sample(clamp_sampler, v_in.uv);
+	float4 blurred = blur_tex.Sample(clamp_sampler, v_in.uv);
+	return lerp(sharp, blurred, mix_amount);
+}
+
+technique Down
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSDown(v_in);
+	}
+}
+
+technique Up
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSUp(v_in);
+	}
+}
+
+technique Mix
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSMix(v_in);
+	}
+}

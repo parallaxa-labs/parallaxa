@@ -1,0 +1,39 @@
+{
+  "id": "late_night_lofi",
+  "name": {
+    "en": "Late Night Lo-fi",
+    "ja": "深夜ローファイ",
+    "id": "Lo-fi Tengah Malam"
+  },
+  "description": {
+    "en": "Warm film grain, soft focus and slow drift for late-night streams.",
+    "ja": "暖かいフィルムグレイン、柔らかいピント、ゆっくりドリフトする深夜配信向けルック。",
+    "id": "Grain film hangat, fokus lembut, dan gerakan pelan untuk siaran larut malam."
+  },
+  "pro": false,
+  "tags": [
+    "chat",
+    "lofi",
+    "drift"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.25
+  },
+  "fx": "lofi",
+  "audio_react": {
+    "amount": 0.15,
+    "attack_ms": 40,
+    "release_ms": 400
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.3
+  },
+  "overscan": 0.08
+}

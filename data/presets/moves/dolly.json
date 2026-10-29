@@ -1,0 +1,26 @@
+{
+  "id": "dolly",
+  "name": {
+    "en": "Dolly In",
+    "ja": "ドリーイン",
+    "id": "Dolly Maju"
+  },
+  "duration_ms": 2500,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "basic",
+    "parallax"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dzoom": 0.15,
+      "dy": -0.02,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

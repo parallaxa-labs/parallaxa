@@ -1,0 +1,28 @@
+{
+  "id": "rainy",
+  "name": {
+    "en": "Rainy",
+    "ja": "雨の日",
+    "id": "Hujan"
+  },
+  "tags": [
+    "cool",
+    "lofi",
+    "lut",
+    "grain"
+  ],
+  "params": {
+    "exposure": -0.1,
+    "contrast": -0.05,
+    "saturation": -0.25,
+    "temperature": -0.2,
+    "vignette": 0.35,
+    "vignette_soft": 0.7,
+    "grain": 0.2,
+    "grain_size": 1.6,
+    "lut": "night",
+    "lut_amount": 0.35,
+    "bloom": 0.25,
+    "bloom_threshold": 0.7
+  }
+}

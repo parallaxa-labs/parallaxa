@@ -1,0 +1,39 @@
+{
+  "id": "gaming_facecam",
+  "name": {
+    "en": "Gaming Facecam",
+    "ja": "ゲーム配信",
+    "id": "Gaming Facecam"
+  },
+  "description": {
+    "en": "Barely-there drift that keeps the game sharp and readable.",
+    "ja": "ゲーム画面をくっきり保つ、ごく控えめなドリフト。",
+    "id": "Gerakan sangat halus yang menjaga layar game tetap tajam dan terbaca."
+  },
+  "pro": false,
+  "tags": [
+    "gaming",
+    "drift",
+    "subtle"
+  ],
+  "roles": {
+    "bg": 1.6,
+    "char": 1,
+    "fg": 0.8
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.15
+  },
+  "fx": "neutral",
+  "audio_react": {
+    "amount": 0.1,
+    "attack_ms": 30,
+    "release_ms": 250
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0
+  },
+  "overscan": 0.04
+}

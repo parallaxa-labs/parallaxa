@@ -1,0 +1,116 @@
+# Parallaxa (OBS plugin, GPL-2.0-or-later): lint, build, test, package.
+#
+# release/package.ps1 -Ci: OBS 32.0.0 headers + x64 import libraries from the
+# pinned official OBS 32.0.0 zip (release/buildspec.json, SHA-256 checked),
+# MSVC + Ninja with the Windows SDK of the buildspec, unit tests (incl. the
+# protocol and preset contract checks), smoke-load on OBS 32.0.0 and 33.0.0
+# (release/obs-smoke.ps1), plugin zip, PDB zip, source zip and installer.
+# The dock job proves dock-src/ rebuilds data/dock/dock-standalone.html.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version: '1.27'
+          cache: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: release/check.ps1 (scripts, installer, layout rules, contracts, actionlint)
+        shell: powershell
+        run: |
+          & ./release/check.ps1 -SkipLocalObs
+          exit $LASTEXITCODE
+
+  dock:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      # LF checkout: the dock rebuild check compares build output byte for byte.
+      - name: git line endings
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.2.2
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: dock-src/pnpm-lock.yaml
+
+      - name: Standalone dock (svelte-check, vitest, rebuild equals the shipped file)
+        run: |
+          pnpm -C dock-src install --frozen-lockfile
+          pnpm -C dock-src verify
+
+  build:
+    name: windows-x64
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Cache OBS binaries (32.0.0 import libs, 32.0.0 + 33.0.0 smoke test) and headers
+        uses: actions/cache@v6
+        with:
+          path: |
+            dist/cache
+            third_party/obs-src
+          key: obs-${{ hashFiles('release/buildspec.json') }}
+
+      - name: Install Inno Setup
+        shell: powershell
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $iscc) -and -not (Get-Command iscc.exe -ErrorAction SilentlyContinue)) {
+            choco install innosetup --no-progress -y
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+      # Unsigned: the signing certificate is given only to release.yml
+      # (tag builds), never to pull requests or ordinary pushes.
+      - name: Build, test, OBS 32/33 smoke-load and package
+        shell: powershell
+        run: |
+          # The repository this build comes from is the GPL source pointer
+          # (SOURCE.txt, installer, About row).
+          & ./release/package.ps1 -Ci -RequireInstaller -SourceUrl "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY"
+          exit $LASTEXITCODE
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: parallaxa-windows-x64
+          path: |
+            dist/release/Parallaxa-*.zip
+            dist/release/installers/Parallaxa-*-Setup.exe
+            dist/release/SHA256SUMS.txt
+          if-no-files-found: error

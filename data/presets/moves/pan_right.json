@@ -1,0 +1,24 @@
+{
+  "id": "pan_right",
+  "name": {
+    "en": "Pan Right",
+    "ja": "右へパン",
+    "id": "Geser Kanan"
+  },
+  "duration_ms": 1200,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "basic"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dx": 0.08,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

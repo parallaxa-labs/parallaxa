@@ -1,0 +1,122 @@
+{
+  "AutoMode": {
+    "AutoChatting": "chatting",
+    "AutoDrift": "drift",
+    "AutoOff": "off",
+    "AutoSinging": "singing"
+  },
+  "Ease": {
+    "EaseInBack": "ease_in_back",
+    "EaseInCubic": "ease_in_cubic",
+    "EaseInElastic": "ease_in_elastic",
+    "EaseInOutBack": "ease_in_out_back",
+    "EaseInOutCubic": "ease_in_out_cubic",
+    "EaseInOutElastic": "ease_in_out_elastic",
+    "EaseInOutQuad": "ease_in_out_quad",
+    "EaseInOutQuint": "ease_in_out_quint",
+    "EaseInQuad": "ease_in_quad",
+    "EaseInQuint": "ease_in_quint",
+    "EaseLinear": "linear",
+    "EaseOutBack": "ease_out_back",
+    "EaseOutCubic": "ease_out_cubic",
+    "EaseOutElastic": "ease_out_elastic",
+    "EaseOutQuad": "ease_out_quad",
+    "EaseOutQuint": "ease_out_quint",
+    "EaseSmoothstep": "smoothstep"
+  },
+  "Feature": {
+    "FeatureAudio": "audio",
+    "FeatureCamera": "camera",
+    "FeatureDOF": "dof",
+    "FeatureFX": "fx",
+    "FeatureViews": "views"
+  },
+  "HotkeyForwardAction": {
+    "ForwardAIApprove": "ai_approve",
+    "ForwardAIMute": "ai_mute",
+    "ForwardAIPanic": "ai_panic",
+    "ForwardAISkip": "ai_skip",
+    "ForwardAIStop": "ai_stop"
+  },
+  "Move": {
+    "MoveDolly": "dolly",
+    "MoveNod": "nod",
+    "MovePanLeft": "pan_left",
+    "MovePanRight": "pan_right",
+    "MovePunch": "punch",
+    "MoveReset": "reset",
+    "MoveShake": "shake",
+    "MoveZoomIn": "zoom_in",
+    "MoveZoomOut": "zoom_out"
+  },
+  "PerfPaused": {
+    "PerfPausedBloom": "bloom",
+    "PerfPausedChroma": "chroma",
+    "PerfPausedGrain": "grain",
+    "PerfPausedLUT": "lut",
+    "PerfPausedLeak": "leak"
+  },
+  "PulseEffect": {
+    "PulseChromaKick": "chroma_kick",
+    "PulseFlash": "flash",
+    "PulseVignettePulse": "vignette_pulse"
+  },
+  "Role": {
+    "RoleBG": "bg",
+    "RoleChar": "char",
+    "RoleFG": "fg",
+    "RoleNone": "none",
+    "RoleSky": "sky",
+    "RoleStatic": "static"
+  },
+  "Transition": {
+    "TransitionCut": "cut",
+    "TransitionPunch": "punch",
+    "TransitionSmooth": "smooth",
+    "TransitionWhip": "whip"
+  },
+  "VendorError": {
+    "VErrBadParam": "bad_param",
+    "VErrBusy": "busy",
+    "VErrInternal": "internal",
+    "VErrNoFX": "no_fx",
+    "VErrNoRig": "no_rig",
+    "VErrNotFound": "not_found"
+  },
+  "VendorEvent": {
+    "VEvtHotkeyForward": "hotkey_forward",
+    "VEvtMoveFinished": "move_finished",
+    "VEvtPerfWarning": "perf_warning",
+    "VEvtRigChanged": "rig_changed",
+    "VEvtStateChanged": "state_changed"
+  },
+  "VendorRequest": {
+    "VReqCameraAuto": "camera_auto",
+    "VReqCameraMove": "camera_move",
+    "VReqCameraReset": "camera_reset",
+    "VReqCameraSet": "camera_set",
+    "VReqDOFSet": "dof_set",
+    "VReqFXPulse": "fx_pulse",
+    "VReqFXSet": "fx_set",
+    "VReqFreeze": "freeze",
+    "VReqGetInfo": "get_info",
+    "VReqGetState": "get_state",
+    "VReqLayerList": "layer_list",
+    "VReqLayerSet": "layer_set",
+    "VReqMoveList": "move_list",
+    "VReqPanic": "panic",
+    "VReqRecipeApply": "recipe_apply",
+    "VReqRecipeList": "recipe_list",
+    "VReqViewApply": "view_apply",
+    "VReqViewDelete": "view_delete",
+    "VReqViewList": "view_list",
+    "VReqViewSave": "view_save"
+  },
+  "untyped": {
+    "DepthBlurKeyAutoStrength": "auto_strength",
+    "FilterCameraRig": "stage_camera_rig",
+    "FilterDepthBlur": "stage_depth_blur",
+    "FilterFX": "stage_fx",
+    "VendorName": "parallaxa"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "lofi",
+  "name": {
+    "en": "Lo-fi Night",
+    "ja": "ローファイナイト",
+    "id": "Lo-fi Malam"
+  },
+  "tags": [
+    "warm",
+    "lofi",
+    "lut"
+  ],
+  "params": {
+    "exposure": -0.05,
+    "contrast": -0.08,
+    "saturation": -0.12,
+    "temperature": 0.12,
+    "tint": 0.05,
+    "vignette": 0.4,
+    "vignette_soft": 0.75,
+    "grain": 0.22,
+    "grain_size": 1.8,
+    "lut": "film",
+    "lut_amount": 0.5,
+    "bloom": 0.3,
+    "bloom_threshold": 0.65
+  }
+}

@@ -1,0 +1,31 @@
+# Fails when a module keeps its own tests (src/<mod>/tests/CMakeLists.txt)
+# that no tests/*/CMakeLists.txt adds: tests/CMakeLists.txt only globs
+# tests/*, so such tests would build nowhere and ctest would never run them.
+#
+# Copyright (C) 2026 Parallaxa Labs
+# SPDX-License-Identifier: GPL-2.0-or-later
+if(NOT PLUGIN_DIR)
+  message(FATAL_ERROR "PLUGIN_DIR not set")
+endif()
+get_filename_component(PLUGIN_DIR "${PLUGIN_DIR}" ABSOLUTE)
+file(GLOB _mod_tests "${PLUGIN_DIR}/src/*/tests/CMakeLists.txt")
+file(GLOB _wrappers "${PLUGIN_DIR}/tests/*/CMakeLists.txt")
+set(_text "")
+foreach(_w IN LISTS _wrappers)
+  file(READ "${_w}" _t)
+  string(APPEND _text "${_t}\n")
+endforeach()
+set(_bad "")
+foreach(_m IN LISTS _mod_tests)
+  get_filename_component(_dir "${_m}" DIRECTORY)
+  file(RELATIVE_PATH _rel "${PLUGIN_DIR}" "${_dir}")
+  string(FIND "${_text}" "add_subdirectory(\"\${CMAKE_CURRENT_SOURCE_DIR}/../../${_rel}\"" _at)
+  if(_at LESS 0)
+    list(APPEND _bad "${_rel}")
+  endif()
+endforeach()
+if(_bad)
+  message(FATAL_ERROR "module tests not added under tests/ (ctest never runs them): ${_bad}")
+endif()
+list(LENGTH _mod_tests _n)
+message(STATUS "module tests: all ${_n} src/*/tests folders are added under tests/")

@@ -1,0 +1,24 @@
+{
+  "id": "dreamy",
+  "name": {
+    "en": "Dreamy",
+    "ja": "ドリーミー",
+    "id": "Mimpi"
+  },
+  "tags": [
+    "soft",
+    "bloom",
+    "pastel"
+  ],
+  "params": {
+    "exposure": 0.15,
+    "contrast": -0.1,
+    "saturation": -0.05,
+    "tint": 0.08,
+    "vignette": 0.2,
+    "vignette_soft": 0.8,
+    "chroma": 0.08,
+    "bloom": 0.55,
+    "bloom_threshold": 0.6
+  }
+}

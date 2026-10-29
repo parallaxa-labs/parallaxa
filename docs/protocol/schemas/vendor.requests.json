@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "vendor.requests.json",
+  "title": "Parallaxa vendor protocol v1: requestData per requestType",
+  "$comment": "SPDX-License-Identifier: MIT. Unknown fields are rejected with bad_param.",
+  "$defs": {
+    "empty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "scene_only": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "scene": { "$ref": "vendor.common.json#/$defs/scene" } }
+    },
+    "get_info": { "$ref": "#/$defs/empty" },
+    "get_state": { "$ref": "#/$defs/scene_only" },
+    "camera_move": {
+      "type": "object",
+      "required": ["move"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "move": { "$ref": "vendor.common.json#/$defs/id" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_move" },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 2 },
+        "ease": { "$ref": "vendor.common.json#/$defs/ease" }
+      }
+    },
+    "camera_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "x": { "type": "number", "minimum": -100000, "maximum": 100000 },
+        "y": { "type": "number", "minimum": -100000, "maximum": 100000 },
+        "zoom": { "type": "number", "minimum": -3.5, "maximum": 4 },
+        "rot": { "type": "number", "minimum": -90, "maximum": 90 },
+        "relative": { "type": "boolean" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" },
+        "ease": { "$ref": "vendor.common.json#/$defs/ease" }
+      },
+      "$comment": "Absolute values (relative absent/false) must be in the camera range; relative deltas are summed and the result is clamped.",
+      "anyOf": [
+        { "required": ["relative"], "properties": { "relative": { "const": true } } },
+        {
+          "properties": {
+            "zoom": { "$ref": "vendor.common.json#/$defs/zoom" },
+            "rot": { "$ref": "vendor.common.json#/$defs/rot" }
+          }
+        }
+      ]
+    },
+    "camera_reset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" }
+      }
+    },
+    "camera_auto": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "mode": { "$ref": "vendor.common.json#/$defs/auto_mode" },
+        "intensity": { "$ref": "vendor.common.json#/$defs/unit" }
+      }
+    },
+    "fx_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "preset": { "$ref": "vendor.common.json#/$defs/id" },
+        "params": { "$ref": "vendor.common.json#/$defs/fx_params" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" }
+      },
+      "anyOf": [{ "required": ["preset"] }, { "required": ["params"] }]
+    },
+    "fx_pulse": {
+      "type": "object",
+      "required": ["effect"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "effect": { "$ref": "vendor.common.json#/$defs/pulse_effect" },
+        "intensity": { "$ref": "vendor.common.json#/$defs/unit" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_pulse" }
+      }
+    },
+    "dof_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "focus_depth": { "$ref": "vendor.common.json#/$defs/depth" },
+        "amount": { "$ref": "vendor.common.json#/$defs/unit" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" },
+        "ease": { "$ref": "vendor.common.json#/$defs/ease" }
+      },
+      "anyOf": [{ "required": ["focus_depth"] }, { "required": ["amount"] }]
+    },
+    "layer_list": { "$ref": "#/$defs/scene_only" },
+    "layer_set": {
+      "type": "object",
+      "required": ["item_id"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "item_id": { "$ref": "vendor.common.json#/$defs/item_id" },
+        "depth": { "oneOf": [{ "type": "null" }, { "$ref": "vendor.common.json#/$defs/depth" }] },
+        "role": { "$ref": "vendor.common.json#/$defs/role" }
+      },
+      "anyOf": [{ "required": ["depth"] }, { "required": ["role"] }]
+    },
+    "move_list": { "$ref": "#/$defs/empty" },
+    "recipe_list": { "$ref": "#/$defs/empty" },
+    "recipe_apply": {
+      "type": "object",
+      "required": ["recipe"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "recipe": { "$ref": "vendor.common.json#/$defs/id" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" }
+      }
+    },
+    "view_save": {
+      "type": "object",
+      "required": ["slot"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "slot": { "$ref": "vendor.common.json#/$defs/slot" },
+        "name": { "$ref": "vendor.common.json#/$defs/view_name" },
+        "transition": { "$ref": "vendor.common.json#/$defs/transition" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" },
+        "keep_pose": { "type": "boolean" }
+      }
+    },
+    "view_apply": {
+      "type": "object",
+      "required": ["slot"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "slot": { "$ref": "vendor.common.json#/$defs/slot" },
+        "transition": { "$ref": "vendor.common.json#/$defs/transition" },
+        "duration_ms": { "$ref": "vendor.common.json#/$defs/duration_set" }
+      }
+    },
+    "view_list": { "$ref": "#/$defs/scene_only" },
+    "view_delete": {
+      "type": "object",
+      "required": ["slot"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "slot": { "$ref": "vendor.common.json#/$defs/slot" }
+      }
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "$ref": "vendor.common.json#/$defs/scene" },
+        "on": { "type": "boolean" }
+      }
+    },
+    "panic": { "$ref": "#/$defs/empty" }
+  }
+}

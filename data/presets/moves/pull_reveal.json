@@ -1,0 +1,32 @@
+{
+  "id": "pull_reveal",
+  "name": {
+    "en": "Pull-Back Reveal",
+    "ja": "引きで見せる",
+    "id": "Mundur Mengungkap"
+  },
+  "duration_ms": 3000,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "singing",
+    "cinematic",
+    "outro"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 0.15,
+      "dzoom": 0.03,
+      "ease": "ease_out_quad"
+    },
+    {
+      "t": 1,
+      "dzoom": -0.22,
+      "dy": 0.01,
+      "ease": "ease_out_quint"
+    }
+  ]
+}

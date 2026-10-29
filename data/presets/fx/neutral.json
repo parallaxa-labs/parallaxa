@@ -1,0 +1,12 @@
+{
+  "id": "neutral",
+  "name": {
+    "en": "Neutral (FX off)",
+    "ja": "ニュートラル（FXオフ）",
+    "id": "Netral (FX mati)"
+  },
+  "tags": [
+    "off"
+  ],
+  "params": {}
+}

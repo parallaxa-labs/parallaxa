@@ -1,0 +1,95 @@
+# Parallaxa release: tag v* builds the plugin zip, PDB zip, GPL source zip
+# and installer with release/package.ps1 and drafts a GitHub release with all
+# of them. Binaries and the source zip are always published together (GPL-2.0
+# section 3: equivalent access to the source).
+#
+# Code signing is optional: set the SIGN_PFX_BASE64 and SIGN_PFX_PASSWORD
+# secrets (and the SIGN_REQUIRED=1 variable to make missing secrets fatal).
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: windows-x64
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Cache OBS binaries and headers
+        uses: actions/cache@v6
+        with:
+          path: |
+            dist/cache
+            third_party/obs-src
+          key: obs-${{ hashFiles('release/buildspec.json') }}
+
+      - name: Install Inno Setup
+        shell: powershell
+        run: |
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $iscc) -and -not (Get-Command iscc.exe -ErrorAction SilentlyContinue)) {
+            choco install innosetup --no-progress -y
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+      - name: Build, test, smoke-load and package
+        shell: powershell
+        env:
+          SIGN_PFX_BASE64: ${{ secrets.SIGN_PFX_BASE64 }}
+          SIGN_PFX_PASSWORD: ${{ secrets.SIGN_PFX_PASSWORD }}
+          SIGN_REQUIRED: ${{ vars.SIGN_REQUIRED }}
+          RELEASE_REF: ${{ github.ref_name }}
+        run: |
+          # The repository this build comes from is the GPL source pointer
+          # (SOURCE.txt, installer, About row); package.ps1 -Ci refuses the
+          # example.com placeholder.
+          $a = @('-Ci', '-RequireInstaller', '-SourceUrl', "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY")
+          if ($env:GITHUB_REF -like 'refs/tags/v*') { $a += @('-Version', $env:RELEASE_REF.Substring(1)) }
+          & ./release/package.ps1 @a
+          exit $LASTEXITCODE
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: parallaxa-release
+          path: |
+            dist/release/*.zip
+            dist/release/installers/*.exe
+            dist/release/SHA256SUMS.txt
+          if-no-files-found: error
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: parallaxa-release
+          path: out
+      - name: Draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mapfile -t files < <(find out -type f | sort)
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
+            --title "Parallaxa ${GITHUB_REF_NAME#v}" \
+            --notes "Binaries and Parallaxa-${GITHUB_REF_NAME#v}-source.zip (complete corresponding source, GPL-2.0-or-later) are published together." \
+            "${files[@]}"

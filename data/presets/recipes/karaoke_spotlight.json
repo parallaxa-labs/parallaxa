@@ -1,0 +1,39 @@
+{
+  "id": "karaoke_spotlight",
+  "name": {
+    "en": "Karaoke Spotlight",
+    "ja": "カラオケスポット",
+    "id": "Sorotan Karaoke"
+  },
+  "description": {
+    "en": "Music-reactive camera with a dreamy glow for karaoke.",
+    "ja": "音に反応するカメラと夢のような光のカラオケルック。",
+    "id": "Kamera yang mengikuti musik dengan cahaya lembut untuk karaoke."
+  },
+  "pro": false,
+  "tags": [
+    "singing",
+    "music-reactive",
+    "bloom"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "singing",
+    "intensity": 0.5
+  },
+  "fx": "dreamy",
+  "audio_react": {
+    "amount": 0.5,
+    "attack_ms": 20,
+    "release_ms": 300
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.3
+  },
+  "overscan": 0.1
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "vendor.events.json",
+  "title": "Parallaxa vendor protocol v1: eventData per eventType",
+  "$comment": "SPDX-License-Identifier: MIT.",
+  "$defs": {
+    "state_changed": { "$ref": "vendor.common.json#/$defs/stage_state" },
+    "move_finished": {
+      "type": "object",
+      "required": ["scene", "scene_uuid", "id", "move", "cancelled"],
+      "additionalProperties": false,
+      "properties": {
+        "scene": { "type": "string" },
+        "scene_uuid": { "$ref": "vendor.common.json#/$defs/uuid" },
+        "id": { "$ref": "vendor.common.json#/$defs/cmd_id" },
+        "move": { "type": "string", "maxLength": 31 },
+        "cancelled": { "type": "boolean" }
+      }
+    },
+    "rig_changed": { "$ref": "vendor.common.json#/$defs/rig_info" },
+    "perf_warning": {
+      "type": "object",
+      "required": ["source", "source_uuid", "filter", "cost_ms", "budget_ms", "window_s", "paused"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string" },
+        "source_uuid": { "$ref": "vendor.common.json#/$defs/uuid" },
+        "filter": { "enum": ["stage_fx", "stage_depth_blur"] },
+        "cost_ms": { "type": "number", "minimum": 0 },
+        "budget_ms": { "type": "number", "minimum": 0 },
+        "window_s": { "type": "integer", "minimum": 1 },
+        "paused": { "$ref": "vendor.common.json#/$defs/perf_paused" }
+      }
+    },
+    "hotkey_forward": {
+      "type": "object",
+      "required": ["action"],
+      "additionalProperties": false,
+      "properties": { "action": { "$ref": "vendor.common.json#/$defs/hotkey_action" } }
+    }
+  }
+}

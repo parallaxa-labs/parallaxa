@@ -1,0 +1,203 @@
+// stage-uber.effect — Parallaxa FX: one pass, technique Draw.
+//
+// Copyright (C) 2026 Parallaxa Labs
+// SPDX-License-Identifier: GPL-2.0-or-later
+//
+// Input `image` is premultiplied and sampled LINEAR (the filter is
+// OBS_SOURCE_SRGB, so libobs binds the sRGB view and writes through an sRGB
+// framebuffer). Order: unpremultiply (+ chromatic aberration, each tap with
+// its own alpha) -> exposure + white balance + bloom (linear light) -> sRGB
+// encode -> contrast, saturation, 3D LUT, vignette, light leak (screen),
+// film grain, flash (display-referred, like every grading tool and the LUT
+// strips) -> clamp to [0, 1] -> sRGB decode -> premultiply.
+//
+// Cost: the sRGB transfer functions are polynomials (one sqrt per channel
+// for the encode, none for the decode; < 0.2 of an 8-bit step from the exact
+// curves) instead of six pow() per pixel. Everything that only depends on
+// uniforms (vignette shape, grain scale and seed) is computed on the CPU.
+//
+// Portable HLSL subset: libobs translates it to GLSL for the OpenGL
+// renderer, so no D3D-only syntax (no saturate, no scalar-promoting
+// constructors, no int maths, no vector ?:, float literals everywhere).
+
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform texture2d lut_tex;
+uniform texture2d leak_tex;
+uniform texture2d bloom_tex;
+
+uniform float exposure_mul;
+uniform float3 wb_gain;
+uniform float contrast;
+uniform float saturation;
+uniform float lut_amount;
+uniform float vignette;
+uniform float2 vignette_scale; // (sx, 1) / |(0.5 sx, 0.5)|: mask radius 1 = corner
+uniform float2 vignette_edge;  // smoothstep r0, r1
+uniform float chroma;
+uniform float grain;
+uniform float2 grain_scale;    // uv -> grain cells (output size / grain size)
+uniform float2 grain_offset;   // new pattern per grain step
+uniform float leak_amount;
+uniform float2 leak_offset;
+uniform float flash;
+uniform float bloom_amount;
+
+sampler_state clamp_sampler {
+	Filter = Linear;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
+
+sampler_state wrap_sampler {
+	Filter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData v_out;
+	v_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	v_out.uv = v_in.uv;
+	return v_out;
+}
+
+// Exact curve: only for linear values above 1 (exposure / bloom overshoot).
+float3 srgb_enc_exact(float3 c)
+{
+	float3 hi = pow(c, float3(1.0 / 2.4, 1.0 / 2.4, 1.0 / 2.4)) * 1.055 - 0.055;
+	return lerp(hi, c * 12.92, step(c, float3(0.0031308, 0.0031308, 0.0031308)));
+}
+
+// Linear [0, 1] -> sRGB: degree-4 fit in sqrt(c) above the linear toe.
+float3 srgb_enc_fast(float3 c)
+{
+	float3 s = sqrt(c);
+	float3 hi = (((s * -0.30912659 + 0.84167028) * s - 0.94394584) * s + 1.44762885) * s -
+		    0.03698271;
+	return lerp(hi, c * 12.92, step(c, float3(0.0031308, 0.0031308, 0.0031308)));
+}
+
+// sRGB [0, 1] -> linear: degree-4 fit above the linear toe.
+float3 srgb_dec_fast(float3 e)
+{
+	float3 hi = (((e * -0.11680817 + 0.52651609) * e + 0.56038369) * e + 0.02839962) * e +
+		    0.00104657;
+	return lerp(hi, e / 12.92, step(e, float3(0.04045, 0.04045, 0.04045)));
+}
+
+// 64^3 LUT stored as a 512x512 strip of 8x8 tiles (blue = tile index,
+// red along x, green along y inside a tile). Two bilinear taps, blue lerp.
+float3 lut_apply(float3 c)
+{
+	float b = c.b * 63.0;
+	float b0 = floor(b);
+	float b1 = min(b0 + 1.0, 63.0);
+	float f = b - b0;
+	float2 rg = c.rg * 63.0 + float2(0.5, 0.5);
+	float2 t0 = float2(fmod(b0, 8.0), floor(b0 / 8.0)) * 64.0;
+	float2 t1 = float2(fmod(b1, 8.0), floor(b1 / 8.0)) * 64.0;
+	float3 s0 = lut_tex.Sample(clamp_sampler, (t0 + rg) / 512.0).rgb;
+	float3 s1 = lut_tex.Sample(clamp_sampler, (t1 + rg) / 512.0).rgb;
+	return lerp(s0, s1, f);
+}
+
+// Sine-free hash (stable precision on every GPU).
+float hash12(float2 p)
+{
+	float3 p3 = frac(float3(p.x, p.y, p.x) * 0.1031);
+	p3 = p3 + dot(p3, p3.yzx + 33.33);
+	return frac((p3.x + p3.y) * p3.z);
+}
+
+// Value noise in cells of grain_size pixels.
+float grain_noise(float2 uv)
+{
+	float2 p = uv * grain_scale + grain_offset;
+	float2 i = floor(p);
+	float2 f = frac(p);
+	float2 s = f * f * (3.0 - 2.0 * f);
+	float a = hash12(i);
+	float b = hash12(i + float2(1.0, 0.0));
+	float c = hash12(i + float2(0.0, 1.0));
+	float d = hash12(i + float2(1.0, 1.0));
+	return lerp(lerp(a, b, s.x), lerp(c, d, s.x), s.y);
+}
+
+float4 PSDraw(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float4 rgba = image.Sample(clamp_sampler, uv);
+	float a = rgba.a;
+	if (a <= 0.0)
+		return float4(0.0, 0.0, 0.0, 0.0);
+	float3 c = rgba.rgb / a;
+
+	if (chroma > 0.0) {
+		// Each tap is un-premultiplied with its own alpha, so the result
+		// stays valid premultiplied colour (r, b <= a) at alpha edges.
+		float2 off = (uv - float2(0.5, 0.5)) * (chroma * 0.016);
+		float4 rs = image.Sample(clamp_sampler, uv + off);
+		float4 bs = image.Sample(clamp_sampler, uv - off);
+		if (rs.a > 0.0)
+			c.r = rs.r / rs.a;
+		if (bs.a > 0.0)
+			c.b = bs.b / bs.a;
+	}
+
+	c = max(c, 0.0) * (wb_gain * exposure_mul);
+	if (bloom_amount > 0.0)
+		c = c + bloom_tex.Sample(clamp_sampler, uv).rgb * (bloom_amount * 1.6);
+
+	float3 e;
+	if (max(max(c.r, c.g), c.b) > 1.0)
+		e = srgb_enc_exact(c);
+	else
+		e = srgb_enc_fast(c);
+
+	e = max((e - 0.5) * contrast + 0.5, 0.0);
+	float l = dot(e, float3(0.2126, 0.7152, 0.0722));
+	e = max(lerp(float3(l, l, l), e, saturation), 0.0);
+
+	if (lut_amount > 0.0)
+		e = lerp(e, lut_apply(clamp(e, 0.0, 1.0)), lut_amount);
+
+	if (vignette > 0.0) {
+		float r = length((uv - float2(0.5, 0.5)) * vignette_scale);
+		e = e * (1.0 - vignette * smoothstep(vignette_edge.x, vignette_edge.y, r));
+	}
+
+	if (leak_amount > 0.0) {
+		float3 lk = leak_tex.Sample(wrap_sampler, uv * 0.75 + leak_offset).rgb * leak_amount;
+		e = e + lk * (1.0 - min(e, 1.0));
+	}
+
+	if (grain > 0.0) {
+		float n = grain_noise(uv) - 0.5;
+		float lum = clamp(dot(e, float3(0.2126, 0.7152, 0.0722)), 0.0, 1.0);
+		float w = 1.0 - 0.6 * abs(lum * 2.0 - 1.0);
+		e = e + n * (grain * 0.35 * w);
+	}
+
+	if (flash > 0.0)
+		e = lerp(e, float3(1.0, 1.0, 1.0), flash);
+
+	// Clamped: SDR output, and colour never exceeds alpha once premultiplied.
+	c = srgb_dec_fast(clamp(e, 0.0, 1.0));
+	return float4(c * a, a);
+}
+
+technique Draw
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSDraw(v_in);
+	}
+}

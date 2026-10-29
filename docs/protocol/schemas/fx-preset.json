@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fx-preset.json",
+  "title": "Stage FX preset file (data/presets/fx/<id>.json)",
+  "$comment": "SPDX-License-Identifier: MIT. File name must be <id>.json. Absent params take the neutral value.",
+  "type": "object",
+  "required": ["id", "name", "params"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "vendor.common.json#/$defs/id" },
+    "name": { "$ref": "vendor.common.json#/$defs/localized_name" },
+    "pro": { "type": "boolean", "default": false },
+    "tags": { "$ref": "vendor.common.json#/$defs/tags" },
+    "params": { "$ref": "vendor.common.json#/$defs/fx_params" }
+  }
+}

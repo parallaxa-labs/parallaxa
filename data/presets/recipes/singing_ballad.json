@@ -1,0 +1,39 @@
+{
+  "id": "singing_ballad",
+  "name": {
+    "en": "Singing Ballad",
+    "ja": "バラード歌枠",
+    "id": "Nyanyi Balada"
+  },
+  "description": {
+    "en": "Slow music-reactive sway, soft bloom and a shallow focus for ballads.",
+    "ja": "ゆっくり音に合わせて揺れる、柔らかいブルームと浅いピントのバラード向けルック。",
+    "id": "Ayunan pelan mengikuti musik, bloom lembut, dan fokus dangkal untuk lagu balada."
+  },
+  "pro": false,
+  "tags": [
+    "singing",
+    "music-reactive",
+    "bloom"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "singing",
+    "intensity": 0.3
+  },
+  "fx": "dreamy",
+  "audio_react": {
+    "amount": 0.35,
+    "attack_ms": 40,
+    "release_ms": 400
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.35
+  },
+  "overscan": 0.1
+}

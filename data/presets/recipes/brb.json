@@ -1,0 +1,40 @@
+{
+  "id": "brb",
+  "name": {
+    "en": "Be Right Back",
+    "ja": "ちょっと休憩",
+    "id": "Sebentar Lagi"
+  },
+  "description": {
+    "en": "Soft focus on the background and a slow drift while you are away.",
+    "ja": "席を外している間、背景にピントを合わせてゆっくり漂うルック。",
+    "id": "Fokus lembut ke latar dan gerakan pelan selama kamu pergi."
+  },
+  "pro": false,
+  "tags": [
+    "brb",
+    "drift",
+    "soft-focus"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.2
+  },
+  "fx": "film",
+  "dof": {
+    "focus_depth": 3,
+    "amount": 0.6
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1.08,
+    "rot": 0
+  },
+  "overscan": 0.1
+}

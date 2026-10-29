@@ -1,0 +1,44 @@
+{
+  "id": "talk_show",
+  "name": {
+    "en": "Talk Show",
+    "ja": "トークショー",
+    "id": "Talk Show"
+  },
+  "description": {
+    "en": "Talk-reactive camera with a slightly tighter frame for Q&A and guests.",
+    "ja": "話すと反応するカメラと少し寄った画角。質問コーナーやゲスト向け。",
+    "id": "Kamera yang bereaksi saat bicara, bingkai sedikit lebih dekat untuk Q&A dan tamu."
+  },
+  "pro": false,
+  "tags": [
+    "chat",
+    "talk-reactive"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "chatting",
+    "intensity": 0.45
+  },
+  "fx": "cozy",
+  "audio_react": {
+    "amount": 0.15,
+    "attack_ms": 25,
+    "release_ms": 220
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.25
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1.05,
+    "rot": 0
+  },
+  "overscan": 0.08
+}

@@ -1,0 +1,32 @@
+{
+  "id": "chorus_lift",
+  "name": {
+    "en": "Chorus Lift",
+    "ja": "サビで寄る",
+    "id": "Angkat Reff"
+  },
+  "duration_ms": 1200,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "singing",
+    "cinematic",
+    "chorus"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 0.15,
+      "dzoom": -0.03,
+      "ease": "ease_out_quad"
+    },
+    {
+      "t": 1,
+      "dzoom": 0.22,
+      "dy": -0.015,
+      "ease": "ease_out_back"
+    }
+  ]
+}

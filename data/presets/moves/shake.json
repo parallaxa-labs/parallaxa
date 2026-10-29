@@ -1,0 +1,31 @@
+{
+  "id": "shake",
+  "name": {
+    "en": "Shake",
+    "ja": "シェイク",
+    "id": "Guncang"
+  },
+  "duration_ms": 600,
+  "relative": true,
+  "hold": false,
+  "tags": [
+    "basic",
+    "impact"
+  ],
+  "keys": [
+    {
+      "t": 0,
+      "shake": 0
+    },
+    {
+      "t": 0.12,
+      "shake": 0.8,
+      "ease": "ease_out_quad"
+    },
+    {
+      "t": 1,
+      "shake": 0,
+      "ease": "ease_out_cubic"
+    }
+  ]
+}

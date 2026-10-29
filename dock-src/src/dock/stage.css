@@ -1,0 +1,82 @@
+/* Copyright (C) 2026 Parallaxa Labs
+ * SPDX-License-Identifier: GPL-2.0-or-later */
+/* Stage control: shared pieces of the Stage components, scoped under `.stage`. Compact
+ * buttons (`.b`, `.p` primary, `.d` danger, `.g` ghost, `.lg` 44 px) follow the Button tokens
+ * without the Button component, to keep the docks small. */
+@layer screens {
+  .stage .b {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-3);
+    min-height: var(--hit-min);
+    padding: 0 var(--sp-5);
+    border: 1px solid var(--c-border-strong);
+    border-radius: var(--r-md);
+    background: var(--c-surface-2);
+    color: var(--c-text);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-tight);
+    overflow: hidden;
+    transition: background-color var(--dur-1) var(--ease-out);
+  }
+  .stage .b:hover:not(:disabled) { background: var(--c-surface-3); }
+  .stage .b:active:not(:disabled) { transform: translateY(1px); }
+  .stage .b[aria-pressed='true'] { border-color: var(--c-primary); background: var(--c-primary-tint); }
+  .stage .p, .stage .p:hover:not(:disabled) { border-color: transparent; background: var(--c-primary); color: var(--c-on-primary); }
+  .stage .d { border-color: var(--c-danger); background: none; color: var(--c-danger); }
+  .stage .d:hover:not(:disabled) { background: var(--c-danger); color: var(--c-on-danger); }
+  .stage .g { border-color: transparent; background: none; }
+  .stage .lg { min-height: var(--hit-touch); border-radius: var(--r-lg); font-size: var(--fs-14); }
+  .stage .holding::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    opacity: .3;
+    transform-origin: left;
+    animation: stage-fill 600ms linear forwards;
+  }
+  @keyframes stage-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .stage input:not([type='range']), .stage select {
+    width: 100%;
+    min-width: 0;
+    height: var(--hit-min);
+    padding: 0 var(--sp-4);
+    border: 1px solid var(--c-border-strong);
+    border-radius: var(--r-sm);
+    background: var(--c-surface-2);
+    color: var(--c-text);
+    font: inherit;
+  }
+  .stage label { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; color: var(--c-text-muted); font-size: var(--fs-12); }
+  .stage .note { color: var(--c-text-subtle); font-size: var(--fs-12); }
+  .stage .err { color: var(--c-danger); }
+  .stage .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-4); }
+  .stage .cols { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .stage .card { min-width: 0; border: 1px solid var(--c-border); border-radius: var(--r-lg); background: var(--c-surface-1); }
+  .stage .card > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    min-height: var(--hit-min);
+    padding: var(--sp-3) var(--sp-5);
+    cursor: pointer;
+  }
+  .stage .card > summary::before { content: '▸'; color: var(--c-text-subtle); }
+  .stage .card[open] > summary::before { content: '▾'; }
+  .stage .card > summary::-webkit-details-marker { display: none; }
+  .stage .card h2 { font-size: var(--fs-14); }
+  .stage .badge {
+    padding: 0 var(--sp-3);
+    border: 1px solid var(--c-border-strong);
+    border-radius: var(--r-pill);
+    color: var(--c-text-muted);
+    font-size: var(--fs-11);
+    font-weight: var(--fw-bold);
+    white-space: nowrap;
+  }
+  .stage .badge.pro { border-color: var(--c-accent); color: var(--c-accent); }
+}

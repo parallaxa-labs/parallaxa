@@ -1,0 +1,28 @@
+{
+  "id": "reset",
+  "name": {
+    "en": "Reset Camera",
+    "ja": "カメラをリセット",
+    "id": "Atur Ulang Kamera"
+  },
+  "duration_ms": 700,
+  "relative": false,
+  "hold": true,
+  "tags": [
+    "basic"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dx": 0,
+      "dy": 0,
+      "dzoom": 0,
+      "drot": 0,
+      "shake": 0,
+      "ease": "ease_in_out_cubic"
+    }
+  ]
+}

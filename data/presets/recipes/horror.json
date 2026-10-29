@@ -1,0 +1,45 @@
+{
+  "id": "horror",
+  "name": {
+    "en": "Horror",
+    "ja": "ホラー",
+    "id": "Horor"
+  },
+  "description": {
+    "en": "Dark, desaturated grade with a tilted frame and uneasy drift.",
+    "ja": "暗く色を抜いたグレードと傾いた画角、不穏なドリフト。",
+    "id": "Warna gelap dan pudar, bingkai miring, dan gerakan gelisah."
+  },
+  "pro": false,
+  "tags": [
+    "horror",
+    "dark",
+    "drift"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "drift",
+    "intensity": 0.5
+  },
+  "fx": "horror",
+  "audio_react": {
+    "amount": 0.3,
+    "attack_ms": 20,
+    "release_ms": 500
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.5
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1.06,
+    "rot": -2
+  },
+  "overscan": 0.1
+}

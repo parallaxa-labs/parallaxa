@@ -1,0 +1,36 @@
+/* Copyright (C) 2026 Parallaxa Labs
+ * SPDX-License-Identifier: GPL-2.0-or-later */
+/* Element defaults and shell-wide rules. */
+@layer base {
+  html { font-size: 16px; background: var(--c-bg); color: var(--c-text); }
+  body {
+    font: var(--fw-regular) var(--fs-14) / var(--lh-ui) var(--font-ui);
+    background: var(--c-bg);
+    color: var(--c-text);
+    container-type: inline-size;
+    container-name: page;
+  }
+  .layout-dock body, body.layout-dock { font-size: var(--fs-13); }
+  :lang(ja) { line-height: var(--lh-jp); letter-spacing: 0; font-style: normal; --font-display: var(--font-ui); }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: var(--fw-bold); line-height: var(--lh-tight); }
+  h1 { font-size: var(--fs-22); }
+  h2 { font-size: var(--fs-18); }
+  h3 { font-size: var(--fs-16); }
+  em, i { font-style: normal; font-weight: var(--fw-bold); } /* no italics (JP has none) */
+  a { color: var(--c-primary); text-underline-offset: 2px; }
+  code, kbd, samp, pre { font-family: var(--font-mono); }
+  ::selection { background: var(--c-primary-tint); }
+
+  /* One visible focus style for everything (2 px ring + 2 px offset). */
+  :focus { outline: none; }
+  :focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-sm); }
+
+  /* Disabled controls: 45% opacity + not-allowed. */
+  :disabled, [aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+
+  input, textarea, select { accent-color: var(--c-primary); }
+  ::placeholder { color: var(--c-text-subtle); opacity: 1; }
+
+  /* Thin themed scrollbars (Chromium/CEF). */
+  * { scrollbar-width: thin; scrollbar-color: var(--c-border-strong) transparent; }
+}

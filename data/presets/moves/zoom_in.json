@@ -1,0 +1,24 @@
+{
+  "id": "zoom_in",
+  "name": {
+    "en": "Zoom In",
+    "ja": "ズームイン",
+    "id": "Perbesar"
+  },
+  "duration_ms": 800,
+  "relative": true,
+  "hold": true,
+  "tags": [
+    "basic"
+  ],
+  "keys": [
+    {
+      "t": 0
+    },
+    {
+      "t": 1,
+      "dzoom": 0.25,
+      "ease": "ease_out_cubic"
+    }
+  ]
+}

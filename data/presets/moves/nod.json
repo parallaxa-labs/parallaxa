@@ -1,0 +1,40 @@
+{
+  "id": "nod",
+  "name": {
+    "en": "Nod",
+    "ja": "うなずき",
+    "id": "Angguk"
+  },
+  "duration_ms": 700,
+  "relative": true,
+  "hold": false,
+  "tags": [
+    "basic",
+    "talk"
+  ],
+  "keys": [
+    {
+      "t": 0,
+      "dy": 0,
+      "dzoom": 0
+    },
+    {
+      "t": 0.35,
+      "dy": 0.012,
+      "dzoom": 0.02,
+      "ease": "ease_out_quad"
+    },
+    {
+      "t": 0.7,
+      "dy": -0.004,
+      "dzoom": 0.005,
+      "ease": "ease_in_out_quad"
+    },
+    {
+      "t": 1,
+      "dy": 0,
+      "dzoom": 0,
+      "ease": "ease_out_quad"
+    }
+  ]
+}

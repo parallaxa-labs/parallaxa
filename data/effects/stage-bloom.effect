@@ -1,0 +1,107 @@
+// stage-bloom.effect — Parallaxa FX bloom chain (optional passes).
+//
+// Copyright (C) 2026 Parallaxa Labs
+// SPDX-License-Identifier: GPL-2.0-or-later
+//
+//   Bright : full resolution input -> half resolution, 4-tap box filter +
+//            soft-knee threshold (input premultiplied, linear light).
+//   Down   : dual-Kawase downsample (5 taps), one level per pass.
+//   Up     : dual-Kawase upsample (8 taps), one level per pass.
+// `texel` is 1 / (size of the texture being sampled). Render targets are
+// RGBA16F, so every value here is linear light.
+
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform float2 texel;
+uniform float offset;
+uniform float threshold;
+uniform float knee;
+
+sampler_state clamp_sampler {
+	Filter = Linear;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData v_out;
+	v_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	v_out.uv = v_in.uv;
+	return v_out;
+}
+
+float4 PSBright(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float3 c = image.Sample(clamp_sampler, uv + texel * float2(-1.0, -1.0)).rgb;
+	c = c + image.Sample(clamp_sampler, uv + texel * float2(1.0, -1.0)).rgb;
+	c = c + image.Sample(clamp_sampler, uv + texel * float2(-1.0, 1.0)).rgb;
+	c = c + image.Sample(clamp_sampler, uv + texel * float2(1.0, 1.0)).rgb;
+	c = c * 0.25;
+	float br = max(c.r, max(c.g, c.b));
+	float k = max(knee, 0.0001);
+	float soft = clamp(br - threshold + k, 0.0, 2.0 * k);
+	soft = soft * soft / (4.0 * k);
+	float contrib = max(soft, br - threshold) / max(br, 0.0001);
+	return float4(c * contrib, 1.0);
+}
+
+float4 PSDown(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float2 hp = texel * (0.5 * offset);
+	float4 sum = image.Sample(clamp_sampler, uv) * 4.0;
+	sum = sum + image.Sample(clamp_sampler, uv - hp);
+	sum = sum + image.Sample(clamp_sampler, uv + hp);
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, -hp.y));
+	sum = sum + image.Sample(clamp_sampler, uv - float2(hp.x, -hp.y));
+	return sum * 0.125;
+}
+
+float4 PSUp(VertData v_in) : TARGET
+{
+	float2 uv = v_in.uv;
+	float2 hp = texel * (0.5 * offset);
+	float4 sum = image.Sample(clamp_sampler, uv + float2(-hp.x * 2.0, 0.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(-hp.x, hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(0.0, hp.y * 2.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x * 2.0, 0.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(hp.x, -hp.y)) * 2.0;
+	sum = sum + image.Sample(clamp_sampler, uv + float2(0.0, -hp.y * 2.0));
+	sum = sum + image.Sample(clamp_sampler, uv + float2(-hp.x, -hp.y)) * 2.0;
+	return sum / 12.0;
+}
+
+technique Bright
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSBright(v_in);
+	}
+}
+
+technique Down
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSDown(v_in);
+	}
+}
+
+technique Up
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader = PSUp(v_in);
+	}
+}

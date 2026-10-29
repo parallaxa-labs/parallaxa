@@ -1,0 +1,39 @@
+{
+  "id": "product_showcase",
+  "name": {
+    "en": "Product Showcase",
+    "ja": "商品紹介",
+    "id": "Etalase Produk"
+  },
+  "description": {
+    "en": "Neutral colours and a calm talk-reactive camera for promo segments.",
+    "ja": "プロモーション向けの、自然な色と落ち着いたトーク反応カメラ。",
+    "id": "Warna netral dan kamera tenang untuk segmen promosi."
+  },
+  "pro": false,
+  "tags": [
+    "promo",
+    "talk-reactive",
+    "clean"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "chatting",
+    "intensity": 0.3
+  },
+  "fx": "neutral",
+  "audio_react": {
+    "amount": 0.1,
+    "attack_ms": 30,
+    "release_ms": 250
+  },
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0.15
+  },
+  "overscan": 0.08
+}

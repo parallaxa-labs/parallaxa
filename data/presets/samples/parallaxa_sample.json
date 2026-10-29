@@ -1,0 +1,330 @@
+{
+  "name": "Parallaxa Sample",
+  "current_scene": "Parallaxa Sample - Just Chatting",
+  "current_program_scene": "Parallaxa Sample - Just Chatting",
+  "scene_order": [
+    {
+      "name": "Parallaxa Sample - Just Chatting"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Parallaxa Sample - Just Chatting",
+      "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a01",
+      "id": "scene",
+      "versioned_id": "scene",
+      "settings": {
+        "id_counter": 3,
+        "custom_size": false,
+        "items": [
+          {
+            "name": "Background",
+            "source_uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a02",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds_crop": false,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 1,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {
+              "stage.depth": 3.0,
+              "stage.role": "bg"
+            }
+          },
+          {
+            "name": "VTube Studio (Spout2)",
+            "source_uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a03",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 960.0,
+              "y": 540.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 0,
+            "bounds_type": 2,
+            "bounds_align": 0,
+            "bounds_crop": false,
+            "bounds": {
+              "x": 1920.0,
+              "y": 1080.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 2,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {
+              "stage.depth": 1.0,
+              "stage.role": "char"
+            }
+          },
+          {
+            "name": "Foreground",
+            "source_uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a04",
+            "visible": true,
+            "locked": false,
+            "rot": 0.0,
+            "pos": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "align": 5,
+            "bounds_type": 0,
+            "bounds_align": 0,
+            "bounds_crop": false,
+            "bounds": {
+              "x": 0.0,
+              "y": 0.0
+            },
+            "crop_left": 0,
+            "crop_top": 0,
+            "crop_right": 0,
+            "crop_bottom": 0,
+            "id": 3,
+            "group_item_backup": false,
+            "scale_filter": "disable",
+            "blend_method": "default",
+            "blend_type": "normal",
+            "show_transition": {
+              "duration": 0
+            },
+            "hide_transition": {
+              "duration": 0
+            },
+            "private_settings": {
+              "stage.depth": 0.6,
+              "stage.role": "fg"
+            }
+          }
+        ]
+      },
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [
+        {
+          "name": "Parallaxa Camera Rig",
+          "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a05",
+          "id": "stage_camera_rig",
+          "versioned_id": "stage_camera_rig",
+          "settings": {},
+          "mixers": 0,
+          "sync": 0,
+          "flags": 0,
+          "volume": 1.0,
+          "balance": 0.5,
+          "enabled": true,
+          "muted": false,
+          "push-to-mute": false,
+          "push-to-mute-delay": 0,
+          "push-to-talk": false,
+          "push-to-talk-delay": 0,
+          "hotkeys": {},
+          "deinterlace_mode": 0,
+          "deinterlace_field_order": 0,
+          "monitoring_type": 0,
+          "private_settings": {}
+        },
+        {
+          "name": "Parallaxa FX",
+          "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a06",
+          "id": "stage_fx",
+          "versioned_id": "stage_fx",
+          "settings": {},
+          "mixers": 0,
+          "sync": 0,
+          "flags": 0,
+          "volume": 1.0,
+          "balance": 0.5,
+          "enabled": true,
+          "muted": false,
+          "push-to-mute": false,
+          "push-to-mute-delay": 0,
+          "push-to-talk": false,
+          "push-to-talk-delay": 0,
+          "hotkeys": {},
+          "deinterlace_mode": 0,
+          "deinterlace_field_order": 0,
+          "monitoring_type": 0,
+          "private_settings": {}
+        }
+      ]
+    },
+    {
+      "name": "Background",
+      "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a02",
+      "id": "image_source",
+      "versioned_id": "image_source",
+      "settings": {
+        "file": "stage_sample_bg.png",
+        "unload": false
+      },
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": [
+        {
+          "name": "Parallaxa Depth Blur",
+          "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a07",
+          "id": "stage_depth_blur",
+          "versioned_id": "stage_depth_blur",
+          "settings": {},
+          "mixers": 0,
+          "sync": 0,
+          "flags": 0,
+          "volume": 1.0,
+          "balance": 0.5,
+          "enabled": true,
+          "muted": false,
+          "push-to-mute": false,
+          "push-to-mute-delay": 0,
+          "push-to-talk": false,
+          "push-to-talk-delay": 0,
+          "hotkeys": {},
+          "deinterlace_mode": 0,
+          "deinterlace_field_order": 0,
+          "monitoring_type": 0,
+          "private_settings": {}
+        }
+      ]
+    },
+    {
+      "name": "VTube Studio (Spout2)",
+      "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a03",
+      "id": "spout_capture",
+      "versioned_id": "spout_capture",
+      "settings": {
+        "spoutsenders": "VTubeStudioSpout"
+      },
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": []
+    },
+    {
+      "name": "Foreground",
+      "uuid": "5a7e0b1c-3d2f-4c1a-9e8b-0c1d2e3f4a04",
+      "id": "image_source",
+      "versioned_id": "image_source",
+      "settings": {
+        "file": "stage_sample_fg.png",
+        "unload": false
+      },
+      "mixers": 0,
+      "sync": 0,
+      "flags": 0,
+      "volume": 1.0,
+      "balance": 0.5,
+      "enabled": true,
+      "muted": false,
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "hotkeys": {},
+      "deinterlace_mode": 0,
+      "deinterlace_field_order": 0,
+      "monitoring_type": 0,
+      "private_settings": {},
+      "filters": []
+    }
+  ],
+  "groups": [],
+  "quick_transitions": [],
+  "transitions": [],
+  "saved_projectors": [],
+  "current_transition": "Fade",
+  "transition_duration": 300,
+  "preview_locked": false,
+  "scaling_enabled": false,
+  "scaling_level": 0,
+  "scaling_off_x": 0.0,
+  "scaling_off_y": 0.0,
+  "modules": {}
+}

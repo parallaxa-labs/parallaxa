@@ -1,0 +1,47 @@
+{
+  "protocol": 1,
+  "tables": {
+    "requests": ["get_info","get_state","camera_move","camera_set","camera_reset","camera_auto","fx_set","fx_pulse","dof_set","layer_list","layer_set","move_list","recipe_list","recipe_apply","view_save","view_apply","view_list","view_delete","freeze","panic"],
+    "moves": ["zoom_in","zoom_out","pan_left","pan_right","shake","punch","dolly","nod","reset"],
+    "eases": ["linear","ease_in_quad","ease_out_quad","ease_in_out_quad","ease_in_cubic","ease_out_cubic","ease_in_out_cubic","ease_in_quint","ease_out_quint","ease_in_out_quint","ease_in_back","ease_out_back","ease_in_out_back","ease_in_elastic","ease_out_elastic","ease_in_out_elastic","smoothstep"],
+    "auto_modes": ["off","drift","chatting","singing"],
+    "roles": ["none","bg","char","fg","sky","static"],
+    "transitions": ["cut","smooth","whip","punch"],
+    "pulse_effects": ["flash","chroma_kick","vignette_pulse"],
+    "hotkey_forward_actions": ["ai_stop","ai_skip","ai_mute","ai_panic","ai_approve"],
+    "errors": ["bad_param","no_rig","no_fx","not_found","busy","internal"]
+  },
+  "limits": {
+    "depth_min": 0.1,
+    "depth_max": 10,
+    "depth_char": 1,
+    "ui_depth_min": -100,
+    "ui_depth_max": 100,
+    "ui_depth_scale": 100,
+    "zoom_min": 0.5,
+    "zoom_max": 4,
+    "layer_scale_min": 0.25,
+    "layer_scale_max": 8,
+    "view_name_max_chars": 47,
+    "rot_min": -45,
+    "rot_max": 45,
+    "move_duration_min": 50,
+    "move_duration_max": 10000,
+    "set_duration_max": 10000,
+    "pulse_duration_min": 50,
+    "pulse_duration_max": 2000,
+    "view_duration_default": 600,
+    "move_intensity_max": 2,
+    "view_slot_min": 1,
+    "view_slot_max": 9,
+    "move_max_keys": 16,
+    "state_event_max_hz": 10,
+    "flash_max_per_sec": 3,
+    "perf_budget_ms": 2,
+    "perf_window_s": 5
+  },
+  "buffers": {
+    "id_max_len": 31,
+    "view_name_bytes": 192
+  }
+}

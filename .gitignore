@@ -1,0 +1,41 @@
+# ---- build outputs ----
+build/
+/dist/
+node_modules/
+*.dll
+*.pdb
+*.lib
+*.exp
+*.obj
+*.ilk
+*.exe
+*.tsbuildinfo
+coverage/
+
+# ---- fetched third-party trees (tools/fetch-obs-headers.ps1, tools/make-implibs.ps1) ----
+third_party/obs-src/
+third_party/implibs/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+
+# ---- editors / OS ----
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# ---- never in this repository: third-party avatar models ----
+model_l2d/
+*.moc3
+
+# ---- secrets, signing material, logs and crash dumps: never committed ----
+*.pfx
+*.p12
+*.pem
+*.key
+.env
+.env.*
+*.log
+*.dmp

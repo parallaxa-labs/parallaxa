@@ -1,0 +1,5 @@
+# pnpm 11 project settings for the web UI (single package, not a workspace).
+# esbuild ships its binary as an optional platform package, so its install
+# script is not needed.
+allowBuilds:
+  esbuild: false

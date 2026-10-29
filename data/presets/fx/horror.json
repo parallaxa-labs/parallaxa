@@ -1,0 +1,27 @@
+{
+  "id": "horror",
+  "name": {
+    "en": "Horror",
+    "ja": "ホラー",
+    "id": "Horor"
+  },
+  "tags": [
+    "dark",
+    "lut",
+    "grain"
+  ],
+  "params": {
+    "exposure": -0.35,
+    "contrast": 0.3,
+    "saturation": -0.55,
+    "temperature": -0.35,
+    "tint": -0.1,
+    "vignette": 0.6,
+    "vignette_soft": 0.45,
+    "vignette_round": 0.8,
+    "chroma": 0.15,
+    "grain": 0.3,
+    "lut": "night",
+    "lut_amount": 0.6
+  }
+}

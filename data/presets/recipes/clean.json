@@ -1,0 +1,39 @@
+{
+  "id": "clean",
+  "name": {
+    "en": "Clean",
+    "ja": "クリーン",
+    "id": "Bersih"
+  },
+  "description": {
+    "en": "No motion and no effects. Your layout exactly as you built it.",
+    "ja": "動きもエフェクトもなし。組んだレイアウトそのまま。",
+    "id": "Tanpa gerakan dan efek. Tata letak persis seperti buatanmu."
+  },
+  "pro": false,
+  "tags": [
+    "off",
+    "static"
+  ],
+  "roles": {
+    "bg": 3,
+    "char": 1,
+    "fg": 0.6
+  },
+  "auto": {
+    "mode": "off",
+    "intensity": 0
+  },
+  "fx": "neutral",
+  "dof": {
+    "focus_depth": 1,
+    "amount": 0
+  },
+  "camera": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1,
+    "rot": 0
+  },
+  "overscan": 0
+}

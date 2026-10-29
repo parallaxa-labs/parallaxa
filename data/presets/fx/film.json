@@ -1,0 +1,25 @@
+{
+  "id": "film",
+  "name": {
+    "en": "Film",
+    "ja": "フィルム",
+    "id": "Film"
+  },
+  "tags": [
+    "film",
+    "lut",
+    "grain"
+  ],
+  "params": {
+    "contrast": 0.12,
+    "saturation": -0.08,
+    "temperature": 0.08,
+    "vignette": 0.3,
+    "vignette_soft": 0.7,
+    "chroma": 0.05,
+    "grain": 0.18,
+    "grain_size": 1.4,
+    "lut": "film",
+    "lut_amount": 0.7
+  }
+}
