@@ -103,10 +103,12 @@ function Invoke-Native {
     }
 }
 
-# Reads "major.minor.patch" from obs64.exe's FileVersion.
+# Reads "major.minor.patch" from obs64.exe's FileVersion, or from obs.dll's
+# when only the DLLs are there (CI extracts just those from the OBS zip).
 function Get-ObsVersion([string]$ObsDir) {
     $exe = Join-Path $ObsDir 'bin\64bit\obs64.exe'
-    if (-not (Test-Path $exe)) { throw "obs64.exe not found under $ObsDir" }
+    if (-not (Test-Path $exe)) { $exe = Join-Path $ObsDir 'bin\64bit\obs.dll' }
+    if (-not (Test-Path $exe)) { throw "obs64.exe or obs.dll not found under $ObsDir" }
     $fv = (Get-Item $exe).VersionInfo.FileVersion
     if (-not $fv) { throw "obs64.exe has no FileVersion ($exe)" }
     $m = [regex]::Match($fv, '(\d+)\.(\d+)\.(\d+)')
