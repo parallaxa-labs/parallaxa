@@ -47,8 +47,8 @@ Apps talk to Parallaxa through obs-websocket requests to the vendor `parallaxa` 
 
 Parallaxa is and stays free software: every feature of the plugin is in this repository, with no licence key, no time limit and no network access. Parallaxa Labs funds its development with two optional things:
 
-- **Patreon membership.** Patrons support ongoing development (OBS updates, new camera moves and effects, fixes) and get early previews and a say in the roadmap. The Patreon page will be linked here once it exists.
-- **Parallaxa Pro Pack.** A separate, paid content pack of extra looks: recipes, LUTs, camera moves and FX presets in the same JSON formats as the free presets in `data/presets` (`docs/protocol/vendor-api.md` section 6). It is a download, not code: you extract it into Parallaxa's user preset folder (`%APPDATA%\obs-studio\plugin_config\parallaxa\`) and the plugin loads it like any preset you saved yourself. Patrons of the matching tier receive it, and it is also sold as a one-time purchase on creator storefronts. The pack's content is under its own licence (personal and streaming use, no redistribution); it does not change the plugin's GPL licence.
+- **Patreon membership.** Patrons support ongoing development (OBS updates, new camera moves and effects, fixes) and get early previews and a say in the roadmap. Join at [patreon.com/Parallaxa](https://www.patreon.com/Parallaxa).
+- **Parallaxa Pro Pack.** A separate, paid content pack of extra looks: recipes, LUTs, camera moves and FX presets in the same JSON formats as the free presets in `data/presets` (`docs/protocol/vendor-api.md` section 6). It is a download, not code: you extract it into Parallaxa's user preset folder (`%APPDATA%\obs-studio\plugin_config\parallaxa\`) and the plugin loads it like any preset you saved yourself. Patrons of the Pro Pack tier receive it, and it is also sold as a one-time purchase on creator storefronts. The pack's content is under its own licence (personal and streaming use, no redistribution); it does not change the plugin's GPL licence.
 
 Contributions of code, translations and presets are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
