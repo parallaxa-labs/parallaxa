@@ -80,6 +80,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      # Only the release notes are needed from the repository.
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: release/notes
       - uses: actions/download-artifact@v8
         with:
           name: parallaxa-release
@@ -89,7 +93,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mapfile -t files < <(find out -type f | sort)
+          # release/notes/<tag>.md when it exists; the GPL source sentence is always added.
+          gpl="Binaries and Parallaxa-${GITHUB_REF_NAME#v}-source.zip (complete corresponding source, GPL-2.0-or-later) are published together."
+          notes="release/notes/${GITHUB_REF_NAME}.md"
+          if [ -f "$notes" ]; then printf '%s\n\n%s\n' "$(cat "$notes")" "$gpl" > notes.md; else printf '%s\n' "$gpl" > notes.md; fi
           gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
             --title "Parallaxa ${GITHUB_REF_NAME#v}" \
-            --notes "Binaries and Parallaxa-${GITHUB_REF_NAME#v}-source.zip (complete corresponding source, GPL-2.0-or-later) are published together." \
+            --notes-file notes.md \
             "${files[@]}"
