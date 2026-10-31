@@ -59,8 +59,9 @@ jobs:
           # The repository this build comes from is the GPL source pointer
           # (SOURCE.txt, installer, About row); package.ps1 -Ci refuses the
           # example.com placeholder.
-          $a = @('-Ci', '-RequireInstaller', '-SourceUrl', "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY")
-          if ($env:GITHUB_REF -like 'refs/tags/v*') { $a += @('-Version', $env:RELEASE_REF.Substring(1)) }
+          # Splat a hashtable: an array would pass '-Version' and the rest as plain values.
+          $a = @{ Ci = $true; RequireInstaller = $true; SourceUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY" }
+          if ($env:GITHUB_REF -like 'refs/tags/v*') { $a.Version = $env:RELEASE_REF.Substring(1) }
           & ./release/package.ps1 @a
           exit $LASTEXITCODE
 
